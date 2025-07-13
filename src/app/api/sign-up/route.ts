@@ -7,37 +7,43 @@ interface SendMailParams {
   name: string;
   email: string;
   token: string;
+
 }
 
 const transporter = nodemailer.createTransport({
   service: 'gmail',
   auth: {
-    user: process.env.GMAIL_USER,  
-    pass: process.env.GMAIL_APP_PASS  
+    user: process.env.GMAIL_USER!,  
+    pass: process.env.GMAIL_APP_PASS!  
   }
 });
 
 async function sendmail({email, name, token}: SendMailParams) {
   try {
+    if (!process.env.GMAIL_USER || !process.env.GMAIL_APP_PASS) {
+      throw new Error("Email credentials not configured");
+    }
+
     const mailOptions = {
-      from: 'devpriyasaini6@gmail.com',
+      from: `"Your App Name" <${process.env.GMAIL_USER}>`,
       to: email,
-      subject: 'To verify your account',
-      html: `<p>Hi ${name}, To verify your account, please copy the One-Time Password (OTP) below and paste it into the OTP input field:<br> ${token}</p>`
+      subject: 'Verify Your Account',
+      html: `<p>Hi ${name}, your verification code is: <strong>${token}</strong></p>`
     };
+
     const info = await transporter.sendMail(mailOptions);
-    console.log('Email sent:', info.response);
+    console.log('Email sent to:', email);
     return info;
   } catch (error) {
-    console.error('Email send error:', error);
-    throw error;
+    console.error('Email failed to:', email, 'Error:', error);
+    throw new Error(`Failed to send email: ${error instanceof Error ? error.message : 'Unknown error'}`);
   }
 }
 
 export async function POST(request: NextRequest) {
   await Connectiondb();
   try {
-    const {username, email, password, secret} = await request.json();
+    const {username, email, password} = await request.json();
     
     
     
@@ -128,3 +134,7 @@ export async function POST(request: NextRequest) {
     );
   }
 }
+
+
+  
+    
