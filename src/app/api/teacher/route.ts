@@ -3,7 +3,7 @@ import teachermodel from "@/model/teacher";
 import { Connectiondb } from "@/lib/dbconnect";
 import { getServerSession } from "next-auth";
 import { NextRequest, NextResponse } from "next/server";
-import { authOptions } from "../auth/[...nextaauth]/option";
+import { authOptions } from "../auth/[...nextauth]/options";
 
 
 export async function POST(request:NextRequest) {

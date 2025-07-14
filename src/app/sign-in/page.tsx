@@ -1,146 +1,93 @@
 "use client"
-import React, { FormEvent, useState } from 'react';
-import { useRouter } from 'next/navigation';
-import axios from "axios";
+import { signIn } from 'next-auth/react';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
+import { NextResponse } from 'next/server';
+import React, { useState } from 'react'
 import { toast } from "sonner"
 
-interface UserData {
-  username: string;
-  email: string;
-  password: string;
-}
+function page() {
+    const [email,setEmail]=useState("");
+        const [password,setPassword]=useState("");
+        const router=useRouter();
 
-export default function SignUpPage() {
-  const router = useRouter();
-  const [user, setUser] = useState<UserData>({
-    username: "",
-    email: "",
-    password: ""
-  });
-  const [secret, setSecret] = useState("");
-  const [isLoading, setIsLoading] = useState(false);
 
-  // Form validation
-  const isFormValid = user.username.length > 0 && 
-                     user.email.includes('@') && 
-                     user.password.length >= 5 &&
-                     secret.length > 0;
 
-  const handleSubmit = async (e: FormEvent) => {
+const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    
-    if (!isFormValid) {
-      toast.error("Please fill all fields correctly");
-      return;
-    }
 
-    try {
-      setIsLoading(true);
-      
-      const response = await axios.post("/api/sign-up", {
-        ...user,
-        adminSecret: secret
-      });
-      
-      if (response.data.success) {
-        toast.success("Admin registered successfully!");
-        router.push("/sign-in");
-      } else {
-        throw new Error(response.data.message || "Registration failed");
-      }
-    } catch (error: any) {
-      console.error("Registration error:", error);
-      toast.error(error.response?.data?.message || error.message || "Registration failed");
-    } finally {
-      setIsLoading(false);
+    const result = await signIn("credentials", {
+      email,
+      password,
+      redirect: false,
+    });
+
+    if (result?.error) {
+      toast(result.error)
+      console.log(result.error);
+    } else {
+      toast("sign-in sucessfully")
+      router.push("/");
     }
   };
-
   return (
-    <div className="max-w-md mx-auto mt-10 p-6 bg-black rounded-lg shadow-md">
-      <h1 className="text-2xl font-bold text-center text-white mb-4">
-        {isLoading ? "Processing..." : "Admin Registration"}
-      </h1>
-      
-      <form onSubmit={handleSubmit} className="space-y-4">
-        {/* Username Field */}
-        <div>
-          <label htmlFor="username" className="block text-sm font-medium text-white mb-1">
-            Username
-          </label>
-          <input
-            type="text"
-            id="username"
-            value={user.username}
-            onChange={(e) => setUser({...user, username: e.target.value.trim()})}
-            className="w-full px-4 py-2 border border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 bg-gray-800 text-white"
-            required
-          />
-        </div>
-
-        {/* Email Field */}
-        <div>
-          <label htmlFor="email" className="block text-sm font-medium text-white mb-1">
-            Email
-          </label>
-          <input
-            type="email"
-            id="email"
-            value={user.email}
-            onChange={(e) => setUser({...user, email: e.target.value.trim()})}
-            className="w-full px-4 py-2 border border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 bg-gray-800 text-white"
-            required
-          />
-        </div>
-
-        {/* Password Field */}
-        <div>
-          <label htmlFor="password" className="block text-sm font-medium text-white mb-1">
-            Password (min 5 characters)
-          </label>
-          <input
-            type="password"
-            id="password"
-            value={user.password}
-            onChange={(e) => setUser({...user, password: e.target.value})}
-            minLength={5}
-            className="w-full px-4 py-2 border border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 bg-gray-800 text-white"
-            required
-          />
-        </div>
-
-        {/* Admin Secret */}
-        <div>
-          <label htmlFor="secret" className="block text-sm font-medium text-white mb-1">
-            Admin Secret Key
-          </label>
-          <input
-            type="password"
-            id="secret"
-            value={secret}
-            onChange={(e) => setSecret(e.target.value)}
-            className="w-full px-4 py-2 border border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 bg-gray-800 text-white"
-            required
-          />
-        </div>
-
-        <button
-          type="submit"
-          disabled={!isFormValid || isLoading}
-          className={`w-full py-2 px-4 rounded-md text-white font-medium ${
-            !isFormValid || isLoading ? 'bg-gray-600 cursor-not-allowed' : 'bg-blue-600 hover:bg-blue-700'
-          } transition-colors`}
-        >
-          {isLoading ? "Registering..." : "Register"}
-        </button>
-      </form>
-
-      <div className="text-center mt-4">
-        <Link href="/sign-in" className="text-blue-400 hover:text-blue-300 text-sm">
-          Already have an account? Sign in
-        </Link>
-      </div>
+    <div className="min-h-screen flex items-center justify-center bg-gray-900 p-4">
+  <div className="w-full max-w-md">
+    <div className="text-center mb-8">
+      <h1 className="text-3xl font-bold text-white">Login here</h1>
     </div>
-  );
+    
+    <form 
+      onSubmit={handleSubmit}
+      className="bg-gray-800 shadow-xl rounded-lg p-8 space-y-6"
+    >
+      <div className="space-y-4">
+        <div>
+          <input 
+            type="email"
+            value={email}
+            placeholder="Email"
+            required
+            onChange={(e) => setEmail(e.target.value)}
+            className="w-full px-4 py-3 rounded-lg bg-gray-700 border border-gray-600 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-colors"
+          />
+        </div>
+        
+        <div>
+          <input
+            type="password"
+            value={password}
+            placeholder="Password"
+            required
+            onChange={(e) => setPassword(e.target.value)}
+            className="w-full px-4 py-3 rounded-lg bg-gray-700 border border-gray-600 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-colors"
+          />
+        </div>
+      </div>
+
+      <button
+        type="submit"
+        className="w-full py-3 px-4 bg-purple-600 hover:bg-purple-700 text-white font-medium rounded-lg transition-colors duration-300 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-offset-2 focus:ring-offset-gray-800"
+      >
+        Login
+      </button>
+    </form>
+    <div className="mt-4 ">
+  
+  <p className="mt-6 text-center text-gray-400">
+      Don't have an account?{' '}
+      <Link 
+        href="/register" 
+        className="text-purple-400 hover:text-purple-300 font-medium transition-colors"
+      >
+        Register here
+      </Link>
+    </p>
+</div>
+  </div>
+  
+</div>
+  )
 }
+
+export default page

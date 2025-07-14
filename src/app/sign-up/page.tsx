@@ -45,7 +45,7 @@ export default function SignUpPage() {
       
       if (response.data.success) {
         toast("Admin-login sucessfully")
-        router.push("/sign-in");
+       router.replace(`/verify/${user.username}`)
       } else {
         throw new Error(response.data.message || "Registration failed");
       }
