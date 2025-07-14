@@ -1,104 +1,72 @@
-import mongoose from "mongoose";
-import alumnimodel from "@/model/alumni";
-import { Connectiondb } from "@/lib/dbconnect";
-import { getServerSession } from "next-auth";
-import { NextRequest, NextResponse } from "next/server";
-import { authOptions } from "../auth/[...nextauth]/options";
+import { NextResponse } from 'next/server';
+import { getServerSession } from 'next-auth';
+import { authOptions } from '../auth/[...nextauth]/options';
+import { Connectiondb } from '@/lib/dbconnect';
+import fs from 'fs/promises';
+import path from 'path';
+import { v4 as uuidv4 } from 'uuid';
+import alumnimodel from '@/model/alumni';
 
-export async function POST(request:NextRequest) {
-   
-    
-    try {
-         const session= await getServerSession(authOptions);
-       if(!session){
-        console.log(("user is unaurthorized"));
-        
-        return NextResponse.json({
-            error:"user is unaurthorized",
-           
-         }, {status:401});
+export async function POST(request: Request) {
+  try {
+    const session = await getServerSession(authOptions);
+    if (!session) {
+      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
 
     await Connectiondb();
 
+    const formData = await request.formData();
+    const studentname = formData.get('studentname') as string;
+    const post = formData.get('post') as string;
+    const description = formData.get('description') as string;
+    const imageFile = formData.get('image') as File;
 
-        const {studentname,post,description,image}=await request.json();
-
-        if(!studentname||!post||!description||!image){
-             return NextResponse.json({
-            success:false,
-            message:"All field is required"
-        },{status:400})
-        }
-        const alumni= await alumnimodel.create({
-            studentname,
-            post,
-            description,
-            image
-        })
-        console.log(alumni);
-        return NextResponse.json({
-            success:true,
-            message:"alumni model upload successfully"
-        },{status:200})
-        
-        
-
-
-    } catch (error) {
-         console.log("error");
-        
-        return NextResponse.json({
-            error:"error to upload vtoppermodel",
-           
-         }, {status:500});
-    }
-}
-
-export async function GET() {
-    try {
-        await Connectiondb();
-        const alumni=await alumnimodel.find({}).sort({ createdAt: -1 }).lean();
-        return NextResponse.json(alumni, { status: 200 });
-    } catch (error) {
-         console.log(error);
-    return NextResponse.json(
-      { error: "failed to fetch alumni"},
-      { status: 500 }
-    );
-  }
-          
-}
-
-export async function DELETE(request: NextRequest) {
-   try {
-     const session = await getServerSession(authOptions);
-    if (!session) {
+    if (!studentname || !post|| !description || !imageFile) {
       return NextResponse.json(
-        { error: "User is unauthorized" },
-        { status: 401 }
+        { error: "All fields are required" },
+        { status: 400 }
       );
     }
 
-    await Connectiondb();
+    // Handle file upload
+    const bytes = await imageFile.arrayBuffer();
+    const buffer = Buffer.from(bytes);
+    const uniqueSuffix = `${Date.now()}-${Math.round(Math.random() * 1e9)}`;
+    const ext = path.extname(imageFile.name);
+    const filename = `${uniqueSuffix}${ext}`;
+    const uploadDir = path.join(process.cwd(), 'public', 'uploads');
+    
+    await fs.mkdir(uploadDir, { recursive: true });
+    await fs.writeFile(path.join(uploadDir, filename), buffer);
 
-     const { id } = await request.json();
-   await alumnimodel.findByIdAndDelete(id);
+    const topper = await alumnimodel.create({
+      studentname,
+      post,
+      description,
+      image: `/uploads/${filename}`
+    });
 
+    return NextResponse.json(topper, { status: 201 });
+
+  } catch (error) {
+    console.error('Error:', error);
     return NextResponse.json(
-      { 
-        success: true,
-        message: "alumni deleted successfully",
-      },
-      { status: 200 }
-    );
-   } catch (error) {
-    console.error("Error deleting alumni:", error);
-    return NextResponse.json(
-      { error: "Failed to delete alumni" },
+      { error: "Internal Server Error" },
       { status: 500 }
-    )
-   }
-
+    );
+  }
 }
 
+export async function GET() {
+  try {
+    await Connectiondb();
+    const toppers = await alumnimodel.find().sort({ createdAt: -1 });
+    return NextResponse.json(toppers, { status: 200 });
+  } catch (error) {
+    return NextResponse.json(
+      { error: "Failed to fetch toppers" },
+      { status: 500 }
+    );
+  }
+}
