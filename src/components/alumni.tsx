@@ -1,39 +1,76 @@
 "use client"
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 import { HoverEffect } from "./ui/card-hover-effect";
-import Link from 'next/link';
+import { toast } from 'sonner';
 
-
-export const projects = [
-{
-    studentname: "Lalit Dhiman",
-    post:"IIT Jammu",
-    description:
-      "The world's premier performing arts conservatory, offering dance, drama, and music education at the highest level.",
-    image: "https://imgs.search.brave.com/mXaRWwcZTbY97tNxudXMSXKZ8DnlsmXvQJzSY7lc2zs/rs:fit:500:0:1:0/g:ce/aHR0cHM6Ly9keW5h/bWljLmJyYW5kY3Jv/d2QuY29tL2Fzc2V0/L2xvZ28vNGVhOWVj/M2EtNWUyMi00OGVj/LWIwZWUtYTBlMzc4/NTI3ZjA3L2xvZ28t/c2VhcmNoLWdyaWQt/MXg_bG9nb1RlbXBs/YXRlVmVyc2lvbj0x/JnY9NjM4MTc2NjMw/NzcxNjAwMDAw",
-  },
-
-  
-];
+interface Alumni {
+  id: string;
+  studentname: string;
+  post: string;
+  description: string;
+  image: string;
+  // Add any additional fields you might have
+}
 
 function Alumnircard() {
+  const [alumni, setAlumni] = useState<Alumni[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  async function fetchAlumni() {
+    try {
+      // Replace with your actual API endpoint
+      const response = await fetch("/api/alumni");
+      const data = await response.json();
+      setAlumni(data);
+      setLoading(false);
+    } catch (error) {
+      toast.error('Failed to fetch alumni data');
+      setLoading(false);
+    }
+  }
+
+  useEffect(() => {
+    fetchAlumni();
+  }, []);
+
+  if (loading) {
+    return (
+      <div className="flex justify-center items-center h-64">
+        <p className="text-white">Loading alumni...</p>
+      </div>
+    );
+  }
+
   return (
-     <div className="Alumni">
+    <div id='Alumni' className="py-12 ">
       <div className="max-w-7xl mx-auto px-4 sm:px-6">
         <div className="text-center">
-          <h2 className="text-base text-teal-600 font-semibold tracking-wide uppercase">Our Alumni Network</h2>
-          <p className="mt-2 text-3xl leading-8 font-extrabold tracking-tight text-white sm:text-4xl">Stay Connected. Stay Inspired.!</p>
+          <h2 className="text-base text-teal-600 font-semibold tracking-wide uppercase">
+            Our Alumni Network
+          </h2>
+          <p className="mt-2 text-3xl leading-8 font-extrabold tracking-tight text-white sm:text-4xl">
+            Stay Connected. Stay Inspired!
+          </p>
         </div>
 
         <div className="mt-10">
-            <HoverEffect items={projects} />
+          {alumni.length > 0 ? (
+            <HoverEffect 
+              items={alumni.map(alumnus => ({
+                studentname: alumnus.studentname,
+                description: alumnus.description,
+                image: alumnus.image,
+                post: alumnus.post,
+                // Map any additional fields needed by HoverEffect
+              }))} 
+            />
+          ) : (
+            <p className="text-center text-gray-400">No alumni records found</p>
+          )}
         </div>
-
-        
       </div>
     </div>
-
-  )
+  );
 }
 
-export default Alumnircard
+export default Alumnircard;

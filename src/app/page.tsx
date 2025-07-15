@@ -1,4 +1,5 @@
 import Alumnircard from "@/components/alumni";
+import DeveloperProfile from "@/components/devloper";
 import { NavbarDemo } from "@/components/navbar";
 import { CarouselDemo } from "@/components/slider";
 import Teachercard from "@/components/teacher";
@@ -14,6 +15,7 @@ export default function Home() {
    <InfiniteMovingCardsDemo/>
    <Toppercard/>
    <Alumnircard/>
+   <DeveloperProfile/>
    </>
   );
 }
