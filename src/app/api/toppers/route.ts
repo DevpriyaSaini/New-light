@@ -89,14 +89,14 @@ export async function DELETE(request: Request) {
     return NextResponse.json(
       { 
         success: true,
-        message: "Teacher deleted successfully",
+        message: "Topper deleted successfully",
       },
       { status: 200 }
     );
    } catch (error) {
-    console.error("Error deleting teacher:", error);
+    console.error("Error deleting topper:", error);
     return NextResponse.json(
-      { error: "Failed to delete teacher" },
+      { error: "Failed to delete topper" },
       { status: 500 }
     )
    }

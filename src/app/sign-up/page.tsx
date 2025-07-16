@@ -1,5 +1,5 @@
 "use client"
-import React, { FormEvent, useState } from 'react';
+import React, { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import axios from "axios";
 import Link from 'next/link';
@@ -21,11 +21,10 @@ export default function SignUpPage() {
   const [secret, setSecret] = useState("");
   const [isLoading, setIsLoading] = useState(false);
 
-  // Derived state instead of useEffect
   const isFormValid = user.username && user.email && user.password.length >= 5;
 
-  const handleSubmit = async () => {
-    
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
     
     if (!isFormValid) {
       toast.error("Please fill all fields correctly");
@@ -35,7 +34,6 @@ export default function SignUpPage() {
     try {
       setIsLoading(true);
       
-      // Client-side validation
       if (secret !== process.env.NEXT_PUBLIC_ADMIN_SECRET) {
         toast("Admin-secret key is wrong")
         throw new Error("Invalid admin secret");
@@ -44,8 +42,8 @@ export default function SignUpPage() {
       const response = await axios.post("/api/sign-up", user);
       
       if (response.data.success) {
-        toast("Admin-login sucessfully")
-       router.replace(`/verify/${user.username}`)
+        toast("Admin registered successfully")
+        router.replace(`/verify/${user.username}`)
       } else {
         throw new Error(response.data.message || "Registration failed");
       }
@@ -53,93 +51,95 @@ export default function SignUpPage() {
       console.error("Registration error:", error);
       toast(error.response?.data?.message || error.message);
     } finally {
-      setIsLoading(false); // Ensure loading state is always reset
+      setIsLoading(false);
     }
   };
 
   return (
-    <div className="max-w-md mx-auto mt-10 p-6 bg-black rounded-lg shadow-md">
-      <h1 className="text-2xl font-bold text-center mb-4">
-        {isLoading ? "Processing..." : "Admin Registration"}
-      </h1>
-      
-      <form onSubmit={handleSubmit} className="space-y-4">
-        {/* Username Field */}
-        <div>
-          <label htmlFor="username" className="block text-sm font-medium text-gray-700 mb-1">
-            Username
-          </label>
-          <input
-            type="text"
-            id="username"
-            value={user.username}
-            onChange={(e) => setUser({...user, username: e.target.value.trim()})}
-            className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-            required
-          />
+    <div className="min-h-screen flex items-center justify-center bg-gray-900 p-4">
+      <div className="w-full max-w-md">
+        <div className="text-center mb-8">
+          <h1 className="text-3xl font-bold text-white">
+            {isLoading ? "Processing..." : "Admin Registration"}
+          </h1>
         </div>
-
-        {/* Email Field */}
-        <div>
-          <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-1">
-            Email
-          </label>
-          <input
-            type="email"
-            id="email"
-            value={user.email}
-            onChange={(e) => setUser({...user, email: e.target.value.trim()})}
-            className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-            required
-          />
-        </div>
-
-        {/* Password Field */}
-        <div>
-          <label htmlFor="password" className="block text-sm font-medium text-gray-700 mb-1">
-            Password (min 5 characters)
-          </label>
-          <input
-            type="password"
-            id="password"
-            value={user.password}
-            onChange={(e) => setUser({...user, password: e.target.value})}
-            minLength={5}
-            className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-            required
-          />
-        </div>
-
-        {/* Admin Secret */}
-        <div>
-          <label htmlFor="secret" className="block text-sm font-medium text-gray-700 mb-1">
-            Admin Secret Key
-          </label>
-          <input
-            type="password"
-            id="secret"
-            value={secret}
-            onChange={(e) => setSecret(e.target.value)}
-            className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-            required
-          />
-        </div>
-
-        <button
-          type="submit"
-          disabled={!isFormValid || isLoading}
-          className={`w-full py-2 px-4 rounded-md text-white font-medium ${
-            !isFormValid || isLoading ? 'bg-gray-400 cursor-not-allowed' : 'bg-blue-600 hover:bg-blue-700'
-          } transition-colors`}
+        
+        <form 
+          onSubmit={handleSubmit}
+          className="bg-gray-800 shadow-xl rounded-lg p-8 space-y-6"
         >
-          {isLoading ? "Registering..." : "Register"}
-        </button>
-      </form>
+          <div className="space-y-4">
+            {/* Username Field */}
+            <div>
+              <input
+                type="text"
+                placeholder="Username"
+                value={user.username}
+                onChange={(e) => setUser({...user, username: e.target.value.trim()})}
+                className="w-full px-4 py-3 rounded-lg bg-gray-700 border border-gray-600 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-colors"
+                required
+              />
+            </div>
 
-      <div className="text-center mt-4">
-        <Link href="/sign-in" className="text-blue-600 hover:text-blue-800 text-sm">
-          Already have an account? Sign in
-        </Link>
+            {/* Email Field */}
+            <div>
+              <input
+                type="email"
+                placeholder="Email"
+                value={user.email}
+                onChange={(e) => setUser({...user, email: e.target.value.trim()})}
+                className="w-full px-4 py-3 rounded-lg bg-gray-700 border border-gray-600 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-colors"
+                required
+              />
+            </div>
+
+            {/* Password Field */}
+            <div>
+              <input
+                type="password"
+                placeholder="Password (min 5 characters)"
+                value={user.password}
+                onChange={(e) => setUser({...user, password: e.target.value})}
+                minLength={5}
+                className="w-full px-4 py-3 rounded-lg bg-gray-700 border border-gray-600 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-colors"
+                required
+              />
+            </div>
+
+            {/* Admin Secret */}
+            <div>
+              <input
+                type="password"
+                placeholder="Admin Secret Key"
+                value={secret}
+                onChange={(e) => setSecret(e.target.value)}
+                className="w-full px-4 py-3 rounded-lg bg-gray-700 border border-gray-600 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-colors"
+                required
+              />
+            </div>
+          </div>
+
+          <button
+            type="submit"
+            disabled={!isFormValid || isLoading}
+            className={`w-full py-3 px-4 rounded-lg text-white font-medium transition-colors duration-300 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-offset-2 focus:ring-offset-gray-800 ${
+              !isFormValid || isLoading 
+                ? 'bg-gray-600 cursor-not-allowed' 
+                : 'bg-purple-600 hover:bg-purple-700'
+            }`}
+          >
+            {isLoading ? "Registering..." : "Register"}
+          </button>
+        </form>
+
+        <div className="mt-6 text-center text-gray-400">
+          <Link 
+            href="/sign-in" 
+            className="text-purple-400 hover:text-purple-300 font-medium transition-colors"
+          >
+            Already have an account? Sign in
+          </Link>
+        </div>
       </div>
     </div>
   );

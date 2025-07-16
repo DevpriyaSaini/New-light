@@ -42,11 +42,12 @@ function Teachercard() {
   }
 
   return (
-    <div className="-mt-5 py-18 bg-gray-900">
+    <div className="-mt-5 -ml-9 py-18 bg-gray-900">
       <div className="max-w-7xl mx-auto px-4 sm:px-6">
         <div className="text-center">
-          <h2 className="text-base text-teal-600 font-semibold tracking-wide uppercase">Top Educators</h2>
           <p className="mt-2 text-3xl leading-8 font-extrabold tracking-tight text-white sm:text-4xl">Let's make dreams true with!</p>
+          <h2 className="text-base text-teal-600 font-semibold tracking-wide uppercase">Top Educators</h2>
+          <hr />
         </div>
 
         <div className="mt-10">

@@ -1,67 +1,77 @@
 'use client';
 
-
 import axios, { AxiosError } from 'axios';
 import { useParams, useRouter } from 'next/navigation';
 import { useState } from 'react';
 import { toast } from "sonner"
 
 function VerifyAccount() {
- const router = useRouter();
+  const router = useRouter();
   const params = useParams<{ username: string }>();
-  const[verifycode,setVerifycode]=useState("");
+  const [verifycode, setVerifycode] = useState("");
 
-  const onSubmit = async () => {
+  const onSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
     try {
-        const response = await axios.post(`/api/verify-email`, {
+      const response = await axios.post(`/api/verify-email`, {
         username: params.username,
-        code:verifycode,
-
+        code: verifycode,
       });
       toast(response.data.message);
-        router.replace('/sign-in');
+      router.replace('/sign-in');
     } catch (error) {
-        const axiosError = error as any;
-        toast(axiosError.response?.data.message ??
-          'An error occurred. Please try again.')
+      const axiosError = error as any;
+      toast(axiosError.response?.data.message ??
+        'An error occurred. Please try again.')
     }
   }
 
   return (
-    <div className="flex justify-center items-center min-h-screen bg-gray-100">
-      <div className="w-full max-w-md p-8 space-y-8 bg-black rounded-lg shadow-md">
-        <div className="text-center">
-          <h1 className="text-4xl font-extrabold tracking-tight lg:text-5xl mb-6">
+    <div className="min-h-screen flex items-center justify-center bg-gray-900 p-4">
+      <div className="w-full max-w-md">
+        <div className="text-center mb-8">
+          <h1 className="text-3xl font-bold text-white">
             Verify Your Account
           </h1>
-          <p className="mb-4">Enter the verification code sent to your email</p>
+          <p className="mt-2 text-gray-400">
+            Enter the verification code sent to your email
+          </p>
         </div>
-          <form onSubmit={onSubmit} className="space-y-4">
-        {/* Username Field */}
-        <div>
-          <label htmlFor="verifycode" className="block text-sm font-medium text-gray-700 mb-1">
-            Verify-code
-          </label>
-          <input
-            type="text"
-            value={verifycode}
-            onChange={(e) => setVerifycode( e.target.value)}
-            className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-            required
-          />
-        </div>
-
-         <button
-          type="submit"
-          
-          className={`w-full py-2 px-4 rounded-md text-white font-medium ${
-            'bg-blue-600 hover:bg-blue-700'
-          } transition-colors`}
+        
+        <form 
+          onSubmit={onSubmit}
+          className="bg-gray-800 shadow-xl rounded-lg p-8 space-y-6"
         >
-          Verify
-        </button>
+          <div>
+            <input
+              type="text"
+              placeholder="Verification Code"
+              value={verifycode}
+              onChange={(e) => setVerifycode(e.target.value)}
+              className="w-full px-4 py-3 rounded-lg bg-gray-700 border border-gray-600 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-colors"
+              required
+            />
+          </div>
+
+          <button
+            type="submit"
+            className="w-full py-3 px-4 bg-purple-600 hover:bg-purple-700 text-white font-medium rounded-lg transition-colors duration-300 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-offset-2 focus:ring-offset-gray-800"
+          >
+            Verify Account
+          </button>
         </form>
         
+        <div className="mt-6 text-center text-gray-400">
+          <p>
+            Didn't receive a code?{' '}
+            <button 
+              className="text-purple-400 hover:text-purple-300 font-medium transition-colors"
+              onClick={() => toast('Resend functionality would go here')}
+            >
+              Resend code
+            </button>
+          </p>
+        </div>
       </div>
     </div>
   )

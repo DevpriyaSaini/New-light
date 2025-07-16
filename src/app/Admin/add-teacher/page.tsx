@@ -1,5 +1,6 @@
 "use client"
 import { useState } from 'react';
+import { toast } from 'sonner';
 
 export default function UploadForm() {
   const [form, setForm] = useState({
@@ -31,20 +32,20 @@ export default function UploadForm() {
 
       if (!res.ok) throw new Error(await res.text());
       const data = await res.json();
-      alert('Upload successful!');
+      toast('Upload successful!');
       // Reset form
       setForm({ teachername: '', education: '',experience:'', description: '' });
       setFile(null);
     } catch (err) {
       console.error(err);
-      alert('Upload failed: ' + (err instanceof Error ? err.message : 'Unknown error'));
+      toast('Upload failed: ' + (err instanceof Error ? err.message : 'Unknown error'))
     } finally {
       setLoading(false);
     }
   };
 
   return (
-<div className="mt-20 max-w-md mx-auto">
+<div className="mt-5 max-w-md mx-auto">
     <h1 className='ml-8 text-4xl mb-4'>Add Teacher here</h1>
   <form 
     onSubmit={handleSubmit} 

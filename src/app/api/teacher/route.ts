@@ -72,3 +72,35 @@ export async function GET() {
     );
   }
 }
+
+export async function DELETE(request: Request) {
+   try {
+     const session = await getServerSession(authOptions);
+    if (!session) {
+      return NextResponse.json(
+        { error: "User is unauthorized" },
+        { status: 401 }
+      );
+    }
+
+    await Connectiondb();
+
+     const { id } = await request.json();
+   await teachermodel.findByIdAndDelete(id);
+
+    return NextResponse.json(
+      { 
+        success: true,
+        message: "Teacher deleted successfully",
+      },
+      { status: 200 }
+    );
+   } catch (error) {
+    console.error("Error deleting teacher:", error);
+    return NextResponse.json(
+      { error: "Failed to delete teacher" },
+      { status: 500 }
+    )
+   }
+
+}

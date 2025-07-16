@@ -23,7 +23,7 @@ export const HoverEffect = ({
   return (
     <div
       className={cn(
-        "grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 p-6",// Added gap-4 for spacing
+        "grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 p-4 dark",
         className
       )}
     >
@@ -37,7 +37,7 @@ export const HoverEffect = ({
           <AnimatePresence>
             {hoveredIndex === idx && (
               <motion.span
-                className="absolute inset-0 h-full w-84 bg-neutral-200 dark:bg-slate-800/[0.8] block rounded-3xl"
+                className="absolute inset-0 h-full w-full bg-neutral-200 dark:bg-slate-800/[0.8] block rounded-3xl"
                 layoutId="hoverBackground"
                 initial={{ opacity: 0 }}
                 animate={{
@@ -52,7 +52,7 @@ export const HoverEffect = ({
             )}
           </AnimatePresence>
           <Card>
-            <div className="h-48 w-80 overflow-hidden rounded-t-xl"> {/* Added container for image */}
+            <div className="h-64 sm:h-72 md:h-80 w-full overflow-hidden rounded-t-xl"> {/* Added container for image */}
               <img 
                 src={item.image} 
                 className="w-full h-full object-cover"
@@ -107,7 +107,7 @@ export const Card = ({
   return (
     <div
       className={cn(
-        "rounded-2xl h-full w-80 overflow-hidden bg-black border border-transparent dark:border-white/[0.2] group-hover:border-slate-700 relative z-20 flex flex-col", // Added flex flex-col
+        "rounded-2xl h-full w-80 overflow-hidden bg-black border border-transparent dark:border-white/[0.8] group-hover:border-slate-700 relative z-20 flex flex-col", // Added flex flex-col
         className
       )}
     >

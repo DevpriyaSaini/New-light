@@ -7,30 +7,30 @@ function Footer() {
         {/* School Information */}
         <div className="space-y-4">
           <h2 className="text-white text-xl font-bold">
-            <span className="text-blue-400">New Light</span> Public School
+            <span className="text-purple-400">New Light</span> Public School
           </h2>
           <p className="text-sm leading-relaxed">
-            Established in 1990, we are committed to excellence in education, nurturing young minds to become future leaders and responsible global citizens.
+            Established in 2000, we are committed to excellence in education, nurturing kids minds to become future leaders and responsible global citizens.
           </p>
           <div className="flex items-center space-x-2">
-            <svg className="w-5 h-5 text-blue-400" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+            <svg className="w-5 h-5 text-purple-400" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
               <path fillRule="evenodd" d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z" clipRule="evenodd" />
             </svg>
-            <span className="text-sm">123 Education Road, Academic City, India</span>
+            <span className="text-sm">Dholamazra,Nakur,S.R.E. India</span>
           </div>
         </div>
 
         {/* Quick Links */}
         <div className="space-y-4">
-          <h3 className="text-white text-lg font-semibold border-b border-blue-500 pb-2 inline-block">Quick Links</h3>
+          <h3 className="text-white text-lg font-semibold border-b border-purple-500 pb-2 inline-block">Quick Links</h3>
           <ul className="space-y-3">
             {['Home', 'About Us', 'Academics', 'Admissions', 'Gallery', 'Achievements'].map((item) => (
               <li key={item}>
                 <a
                   href="#"
-                  className="text-sm hover:text-blue-400 transition-colors duration-200 flex items-center"
+                  className="text-sm hover:text-purple-400 transition-colors duration-200 flex items-center"
                 >
-                  <svg className="w-3 h-3 mr-2 text-blue-400" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                  <svg className="w-3 h-3 mr-2 text-purple-400" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
                     <path fillRule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clipRule="evenodd" />
                   </svg>
                   {item}
@@ -42,10 +42,10 @@ function Footer() {
 
         {/* Contact Info */}
         <div className="space-y-4">
-          <h3 className="text-white text-lg font-semibold border-b border-blue-500 pb-2 inline-block">Contact Us</h3>
+          <h3 className="text-white text-lg font-semibold border-b border-purple-500 pb-2 inline-block">Contact Us</h3>
           <address className="not-italic space-y-3 text-sm">
             <div className="flex items-start">
-              <svg className="w-5 h-5 mt-0.5 mr-2 text-blue-400" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+              <svg className="w-5 h-5 mt-0.5 mr-2 text-purple-400" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
                 <path d="M2 3a1 1 0 011-1h2.153a1 1 0 01.986.836l.74 4.435a1 1 0 01-.54 1.06l-1.548.773a11.037 11.037 0 006.105 6.105l.774-1.548a1 1 0 011.059-.54l4.435.74a1 1 0 01.836.986V17a1 1 0 01-1 1h-2C7.82 18 2 12.18 2 5V3z" />
               </svg>
               <div>
@@ -54,7 +54,7 @@ function Footer() {
               </div>
             </div>
             <div className="flex items-start">
-              <svg className="w-5 h-5 mt-0.5 mr-2 text-blue-400" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+              <svg className="w-5 h-5 mt-0.5 mr-2 text-purple-400" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
                 <path d="M2.003 5.884L10 9.882l7.997-3.998A2 2 0 0016 4H4a2 2 0 00-1.997 1.884z" />
                 <path d="M18 8.118l-8 4-8-4V14a2 2 0 002 2h12a2 2 0 002-2V8.118z" />
               </svg>
@@ -64,12 +64,12 @@ function Footer() {
               </div>
             </div>
             <div className="flex items-start">
-              <svg className="w-5 h-5 mt-0.5 mr-2 text-blue-400" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+              <svg className="w-5 h-5 mt-0.5 mr-2 text-purple-400" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
                 <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-12a1 1 0 10-2 0v4a1 1 0 00.293.707l2.828 2.829a1 1 0 101.415-1.415L11 9.586V6z" clipRule="evenodd" />
               </svg>
               <div>
                 <p className="font-medium text-white">Office Hours</p>
-                <p>Mon-Fri: 8:00 AM - 3:00 PM</p>
+                <p>Mon-sat: 8:00 AM - 2:00 PM</p>
               </div>
             </div>
           </address>
@@ -77,7 +77,7 @@ function Footer() {
 
         {/* Social Media */}
         <div className="space-y-4">
-          <h3 className="text-white text-lg font-semibold border-b border-blue-500 pb-2 inline-block">Connect With Us</h3>
+          <h3 className="text-white text-lg font-semibold border-b border-purple-500 pb-2 inline-block">Connect With Us</h3>
           <div className="grid grid-cols-2 gap-3">
             {[
               { name: 'Facebook', icon: 'M18 2h-3a5 5 0 00-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 011-1h3z' },
@@ -88,7 +88,7 @@ function Footer() {
               <a
                 key={social.name}
                 href="#"
-                className="flex items-center space-x-2 text-sm p-2 bg-gray-800 hover:bg-blue-600 rounded transition-all duration-200"
+                className="flex items-center space-x-2 text-sm p-2 bg-gray-800 hover:bg-purple-600 rounded transition-all duration-200"
               >
                 <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
                   <path fillRule="evenodd" d={social.icon} clipRule="evenodd" />
@@ -108,14 +108,11 @@ function Footer() {
           </p>
           <div className="hidden md:block text-gray-600">|</div>
           <div className="flex space-x-4">
-            <a href="#" className="text-xs hover:text-blue-400">Privacy Policy</a>
-            <a href="#" className="text-xs hover:text-blue-400">Terms of Service</a>
-            <a href="#" className="text-xs hover:text-blue-400">Sitemap</a>
+            <a href="#" className="text-xs hover:text-purple-400">Privacy Policy</a>
+            <a href="#" className="text-xs hover:text-purple-400">Terms of Service</a>
+            <a href="#" className="text-xs hover:text-purple-400">Sitemap</a>
           </div>
         </div>
-        <p className="text-xs text-gray-600 mt-4">
-          Affiliated with CBSE | School Code: NLPS12345
-        </p>
       </div>
     </footer>
   )

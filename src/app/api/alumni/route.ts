@@ -70,3 +70,35 @@ export async function GET() {
     );
   }
 }
+
+export async function DELETE(request: Request) {
+   try {
+     const session = await getServerSession(authOptions);
+    if (!session) {
+      return NextResponse.json(
+        { error: "User is unauthorized" },
+        { status: 401 }
+      );
+    }
+
+    await Connectiondb();
+
+     const { id } = await request.json();
+   await alumnimodel.findByIdAndDelete(id);
+
+    return NextResponse.json(
+      { 
+        success: true,
+        message: "Alumni deleted successfully",
+      },
+      { status: 200 }
+    );
+   } catch (error) {
+    console.error("Error deleting Alumni:", error);
+    return NextResponse.json(
+      { error: "Failed to delete Alumni" },
+      { status: 500 }
+    )
+   }
+
+}
