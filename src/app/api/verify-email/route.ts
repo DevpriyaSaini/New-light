@@ -48,7 +48,7 @@ export async function POST(request:Request) {
         },{status:400})
       }
         
-    } catch (error) {
+    } catch (error: unknown) {
         console.error("Error verifying user",error);
         return NextResponse.json({
             success:false,

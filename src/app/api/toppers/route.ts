@@ -48,7 +48,7 @@ export async function POST(request: Request) {
 
     return NextResponse.json(topper, { status: 201 });
 
-  } catch (error) {
+  } catch (error: unknown) {
     console.error('Error:', error);
     return NextResponse.json(
       { error: "Internal Server Error" },
@@ -62,7 +62,7 @@ export async function GET() {
     await Connectiondb();
     const toppers = await toppermodel.find().sort({ createdAt: -1 });
     return NextResponse.json(toppers, { status: 200 });
-  } catch (error) {
+  } catch (error: unknown) {
     return NextResponse.json(
       { error: "Failed to fetch toppers" },
       { status: 500 }
@@ -92,7 +92,7 @@ export async function DELETE(request: Request) {
       },
       { status: 200 }
     );
-   } catch (error) {
+   } catch (error: unknown) {
     console.error("Error deleting topper:", error);
     return NextResponse.json(
       { error: "Failed to delete topper" },
