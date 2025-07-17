@@ -10,7 +10,7 @@ function Page() {
     <div className="fixed w-full top-0 z-50 dark">
   <NavbarDemo />
 </div>
-     <div className='mt-5'>
+     <div className='ml-9 mt-5'>
         <Teachercard/>
     </div>
     <Footer/>
