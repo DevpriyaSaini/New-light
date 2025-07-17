@@ -43,7 +43,7 @@ function Toppercard() {
   }
 
   return (
-    <div  id="Toppers"className="Alumni py-12 bg-gray-900">
+    <div  id="Toppers"className=" py-12 bg-gray-900 -ml-9 ">
       <div className="max-w-7xl mx-auto px-4 sm:px-6">
         <div className="text-center">
            <p className=" text-3xl leading-8 font-extrabold tracking-tight text-white sm:text-4xl">
