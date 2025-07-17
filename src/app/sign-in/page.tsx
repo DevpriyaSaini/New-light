@@ -6,7 +6,7 @@ import { useRouter } from 'next/navigation';
 import React, { useState } from 'react'
 import { toast } from "sonner"
 
-function page() {
+function Loginpage() {
     const [email,setEmail]=useState("");
         const [password,setPassword]=useState("");
         const router=useRouter();
@@ -94,4 +94,4 @@ const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
   )
 }
 
-export default page
+export default Loginpage
