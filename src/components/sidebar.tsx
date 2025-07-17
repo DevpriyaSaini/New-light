@@ -1,9 +1,27 @@
 "use client"
+import axios from "axios";
 import Link from "next/link";
 import { useState } from "react";
+import { signOut } from 'next-auth/react';
+import { useRouter } from 'next/navigation';
+import { Button } from "./ui/button";
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
+   const router = useRouter();
+  const handleLogout = async () => {
+    try {
+      await signOut({
+        redirect: false,
+        callbackUrl: '/sign-in'
+      });
+      // Clear client-side cache and redirect
+      router.push('/sign-in');
+      router.refresh(); // Ensure client cache is cleared
+    } catch (error) {
+      console.error('Logout failed:', error);
+    }
+  };
 
   return (
     <nav className="bg-gray-900 text-neutral-300">
@@ -12,7 +30,7 @@ const Navbar = () => {
           {/* Logo */}
           <div className="flex-shrink-0 flex items-center">
             <Link href="/" className="text-xl font-bold text-white">
-             <img src="https://imgs.search.brave.com/lkIuRGzrNmt9JVgk4KscDk0Yt62nUkoSOOziXEO9fVs/rs:fit:500:0:1:0/g:ce/aHR0cHM6Ly9pbWcu/ZnJlZXBpay5jb20v/cHJlbWl1bS12ZWN0/b3Ivc2Nob29sLWxv/Z28tZGVzaWduLXRl/bXBsYXRlLWN1c3Rv/bWl6YWJsZS1lZHVj/YXRpb24tbG9nby1p/ZGVhc183MzExMzYt/MTUwLmpwZz9zZW10/PWFpc19oeWJyaWQm/dz03NDA" className="w-15 rounded-full" />
+             <img src="https://imgs.search.brave.com/lkIuRGzrNmt9JVgk4KscDk0Yt62nUkoSOOziXEO9fVs/rs:fit:500:0:1:0/g:ce/aHR0cHM6Ly9pbWcu/ZnJlZXBpay5jb20v/cHJlbWl1bS12ZWN0/b3Ivc2Nob29sLWxv/Z28tZGVzaWduLXRl/bXBsYXRlLWN1c3Rv/bWl6YWJsZS1lZHVj/YXRpb24tbG9nby1p/ZGVhc183MzExMzYt/MTUwLmpwZz9zZW10/PWFpc19oeWJyaWQm/dz03NDA" className="w-13 rounded-full" />
             </Link>
              <Link href="/">
             <p className="ml-1.5">New-light</p>
@@ -45,6 +63,7 @@ const Navbar = () => {
             >
               Admin
             </Link>
+            <Button onClick={handleLogout}>Signout</Button>
           </div>
 
           {/* Mobile menu button */}
@@ -124,6 +143,7 @@ const Navbar = () => {
           >
             Admin
           </Link>
+           <Button className="w-full" onClick={handleLogout}>Signout</Button>
         </div>
       </div>
     </nav>

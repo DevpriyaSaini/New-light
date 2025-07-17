@@ -17,7 +17,7 @@ export const authOptions: NextAuthOptions = {
         await Connectiondb();
         try {
           const user = await usermodel.findOne({ email: credentials.email});
-          console.log(user);
+
           
           if (!user) {
             throw new Error('No user found with this email');
@@ -46,6 +46,7 @@ export const authOptions: NextAuthOptions = {
         token._id = user._id?.toString(); // Convert ObjectId to string
         token.isVerified = user.isVerified;
         token.username = user.username;
+        token.email = user.email;
       }
       return token;
     },
@@ -54,6 +55,7 @@ export const authOptions: NextAuthOptions = {
         session.user._id = token._id;
         session.user.isVerified = token.isVerified;
         session.user.username = token.username;
+        session.user.email = token.email;
       }
       return session;
     },

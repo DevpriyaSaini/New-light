@@ -1,4 +1,5 @@
 "use client"
+import { NavbarDemo } from '@/components/navbar';
 import { signIn } from 'next-auth/react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
@@ -27,11 +28,15 @@ const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
       console.log(result.error);
     } else {
       toast("sign-in sucessfully")
-      router.push("/");
+      router.push("/Admin");
     }
   };
   return (
+     
     <div className="min-h-screen flex items-center justify-center bg-gray-900 p-4">
+       <div className="fixed w-full top-0 z-50 dark">
+            <NavbarDemo />
+            </div>
   <div className="w-full max-w-md">
     <div className="text-center mb-8">
       <h1 className="text-3xl font-bold text-white">Login here</h1>
@@ -77,7 +82,7 @@ const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
   <p className="mt-6 text-center text-gray-400">
       Don't have an account?{' '}
       <Link 
-        href="/register" 
+        href="/sign-up" 
         className="text-purple-400 hover:text-purple-300 font-medium transition-colors"
       >
         Register here

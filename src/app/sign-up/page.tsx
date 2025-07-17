@@ -4,6 +4,7 @@ import { useRouter } from 'next/navigation';
 import axios from "axios";
 import Link from 'next/link';
 import { toast } from "sonner"
+import { NavbarDemo } from '@/components/navbar';
 
 interface UserData {
   username: string;
@@ -57,6 +58,9 @@ export default function SignUpPage() {
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-900 p-4">
+       <div className="fixed w-full top-0 z-50 dark">
+            <NavbarDemo/>
+            </div>
       <div className="w-full max-w-md">
         <div className="text-center mb-8">
           <h1 className="text-3xl font-bold text-white">
