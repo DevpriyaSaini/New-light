@@ -4,7 +4,7 @@ import { NavbarDemo } from '@/components/navbar'
 import Teachercard from '@/components/teacher'
 import React from 'react'
 
-function page() {
+function Page() {
   return (
     <>
     <div className="fixed w-full top-0 z-50 dark">
@@ -19,4 +19,4 @@ function page() {
   )
 }
 
-export default page
+export default Page
