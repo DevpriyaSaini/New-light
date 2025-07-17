@@ -4,7 +4,6 @@ import { authOptions } from '../auth/[...nextauth]/options';
 import { Connectiondb } from '@/lib/dbconnect';
 import fs from 'fs/promises';
 import path from 'path';
-import { v4 as uuidv4 } from 'uuid';
 import teachermodel from '@/model/teacher';
 
 export async function POST(request: Request) {

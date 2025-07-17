@@ -3,7 +3,6 @@ import { NavbarDemo } from '@/components/navbar';
 import { signIn } from 'next-auth/react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
-import { NextResponse } from 'next/server';
 import React, { useState } from 'react'
 import { toast } from "sonner"
 

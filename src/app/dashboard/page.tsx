@@ -1,7 +1,6 @@
 import { TimelineDemo } from '@/components/dash'
 import Footer from '@/components/footer'
 import { NavbarDemo } from '@/components/navbar'
-import { div } from 'motion/react-client'
 import React from 'react'
 
 function page() {
