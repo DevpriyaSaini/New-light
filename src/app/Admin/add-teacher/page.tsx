@@ -31,7 +31,7 @@ export default function UploadForm() {
       });
 
       if (!res.ok) throw new Error(await res.text());
-      const data = await res.json();
+      
       toast('Upload successful!');
       // Reset form
       setForm({ teachername: '', education: '',experience:'', description: '' });
