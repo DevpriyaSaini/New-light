@@ -21,7 +21,7 @@ export async function POST(request: Request) {
     const description = formData.get('description') as string;
     const imageFile = formData.get('image') as File;
 
-    if (!studentname || !post|| !description || !imageFile) {
+    if (!studentname || !post || !description || !imageFile) {
       return NextResponse.json(
         { error: "All fields are required" },
         { status: 400 }
@@ -48,7 +48,7 @@ export async function POST(request: Request) {
 
     return NextResponse.json(topper, { status: 201 });
 
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error('Error:', error);
     return NextResponse.json(
       { error: "Internal Server Error" },
@@ -62,7 +62,7 @@ export async function GET() {
     await Connectiondb();
     const toppers = await alumnimodel.find().sort({ createdAt: -1 });
     return NextResponse.json(toppers, { status: 200 });
-  } catch (error: any) {
+  } catch (error: unknown) {
     return NextResponse.json(
       { error: "Failed to fetch toppers" },
       { status: 500 }
@@ -71,8 +71,8 @@ export async function GET() {
 }
 
 export async function DELETE(request: Request) {
-   try {
-     const session = await getServerSession(authOptions);
+  try {
+    const session = await getServerSession(authOptions);
     if (!session) {
       return NextResponse.json(
         { error: "User is unauthorized" },
@@ -82,8 +82,8 @@ export async function DELETE(request: Request) {
 
     await Connectiondb();
 
-     const { id } = await request.json();
-   await alumnimodel.findByIdAndDelete(id);
+    const { id } = await request.json();
+    await alumnimodel.findByIdAndDelete(id);
 
     return NextResponse.json(
       { 
@@ -92,12 +92,11 @@ export async function DELETE(request: Request) {
       },
       { status: 200 }
     );
-   } catch (error:any) {
+  } catch (error: unknown) {
     console.error("Error deleting Alumni:", error);
     return NextResponse.json(
       { error: "Failed to delete Alumni" },
       { status: 500 }
-    )
-   }
-
+    );
+  }
 }
