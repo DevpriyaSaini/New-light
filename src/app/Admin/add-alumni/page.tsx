@@ -36,7 +36,7 @@ export default function UploadForm() {
       setFile(null);
     } catch (err) {
       console.error(err);
-      toast('Upload failed: ' + (err instanceof Error ? err.message : 'Unknown error'))
+       toast('Upload failed: That student&apos;s image is too big.');
     } finally {
       setLoading(false);
     }
