@@ -40,7 +40,7 @@ async function sendmail({email, name, token}: SendMailParams) {
     });
     console.log('Email sent to:', email);
     return info;
-  } catch (error) {
+  } catch (error:unknown) {
     console.error('Email failed to:', email, 'Error:', error);
     throw new Error(`Failed to send email: ${error instanceof Error ? error.message : 'Unknown error'}`);
   }
@@ -109,12 +109,12 @@ export async function POST(request: NextRequest) {
       { status: 200 }
     );
 
-  } catch (error: any) {
+  } catch (error:unknown) {
     console.error("Error during registration:", error);
     return NextResponse.json(
       {
         success: false,
-        message: error.message || "Error registering user",
+        message: "Error registering user",
       },
       { status: 500 }
     );
