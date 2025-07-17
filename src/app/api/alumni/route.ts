@@ -4,7 +4,6 @@ import { authOptions } from '../auth/[...nextauth]/options';
 import { Connectiondb } from '@/lib/dbconnect';
 import fs from 'fs/promises';
 import path from 'path';
-import { v4 as uuidv4 } from 'uuid';
 import alumnimodel from '@/model/alumni';
 
 export async function POST(request: Request) {
@@ -49,7 +48,7 @@ export async function POST(request: Request) {
 
     return NextResponse.json(topper, { status: 201 });
 
-  } catch (error) {
+  } catch (error: unknown) {
     console.error('Error:', error);
     return NextResponse.json(
       { error: "Internal Server Error" },
@@ -63,7 +62,7 @@ export async function GET() {
     await Connectiondb();
     const toppers = await alumnimodel.find().sort({ createdAt: -1 });
     return NextResponse.json(toppers, { status: 200 });
-  } catch (error) {
+  } catch (error: unknown) {
     return NextResponse.json(
       { error: "Failed to fetch toppers" },
       { status: 500 }
@@ -93,7 +92,7 @@ export async function DELETE(request: Request) {
       },
       { status: 200 }
     );
-   } catch (error) {
+   } catch (error: unknown) {
     console.error("Error deleting Alumni:", error);
     return NextResponse.json(
       { error: "Failed to delete Alumni" },
