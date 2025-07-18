@@ -14,6 +14,7 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
 } from "@/components/ui/alert-dialog";
+import { CldImage } from 'next-cloudinary';
 
 type Teacher = {
   _id: string;
@@ -160,8 +161,8 @@ export default function AdminDashboard() {
               <div key={item._id} className="bg-gray-800 rounded-lg shadow-lg overflow-hidden">
                 <div className="p-4 flex flex-col items-center">
                   <div className="relative h-32 w-32 rounded-full overflow-hidden mb-4">
-                    <Image
-                      src={item.image || '/default-profile.png'}
+                     <CldImage
+                      src={item.image}
                       alt={getName(item)}
                       fill
                       className="object-cover"

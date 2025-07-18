@@ -1,161 +1,183 @@
-"use client"
+// components/AlumniForm.tsx
+'use client';
+
 import { useState } from 'react';
+import ImageUpload from '@/components/ImageUpload';
 import { toast } from 'sonner';
 
-export default function UploadForm() {
-  const [form, setForm] = useState({
+export default function AlumniForm() {
+  const [formData, setFormData] = useState({
     studentname: '',
     post: '',
-    description: ''
+    description: '',
+    publicId: ''
   });
-  const [file, setFile] = useState<File | null>(null);
-  const [loading, setLoading] = useState(false);
+  const [errors, setErrors] = useState({
+    studentname: '',
+    post: '',
+    description: '',
+    publicId: ''
+  });
+  const [isSubmitting, setIsSubmitting] = useState(false);
+
+  const validateForm = () => {
+    let isValid = true;
+    const newErrors = {
+      studentname: '',
+      post: '',
+      description: '',
+      publicId: ''
+    };
+
+    if (!formData.studentname.trim()) {
+      newErrors.studentname = 'Student name is required';
+      isValid = false;
+    }
+
+    if (!formData.post.trim()) {
+      newErrors.post = 'Post is required';
+      isValid = false;
+    }
+
+    if (!formData.description.trim()) {
+      newErrors.description = 'Description is required';
+      isValid = false;
+    }
+
+    if (!formData.publicId) {
+      newErrors.publicId = 'Image is required';
+      isValid = false;
+    }
+
+    setErrors(newErrors);
+    return isValid;
+  };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!file) return;
+    
+    if (!validateForm()) {
+      return;
+    }
 
-    setLoading(true);
-    const formData = new FormData();
-    formData.append('studentname', form.studentname);
-    formData.append('post', form.post);
-    formData.append('description', form.description);
-    formData.append('image', file);
+    setIsSubmitting(true);
 
     try {
-      const res = await fetch('/api/alumni', {
+      const response = await fetch('/api/alumni', {
         method: 'POST',
-        body: formData
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(formData),
       });
 
-      if (!res.ok) throw new Error(await res.text());
-     
-      toast("upload successful!")
-      // Reset form
-      setForm({ studentname: '', post: '', description: '' });
-      setFile(null);
-    } catch (err) {
-      console.error(err);
-       toast('Upload failed: That student&apost image is too big.');
+      if (!response.ok) {
+        throw new Error('Submission failed');
+      }
+
+      // Reset form on success
+      setFormData({
+        studentname: '',
+        post: '',
+        description: '',
+        publicId: ''
+      });
+      setErrors({
+        studentname: '',
+        post: '',
+        description: '',
+        publicId: ''
+      });
+      toast('Submitted successfully!');
+    } catch (error) {
+      console.error('Error:', error);
+      toast('Submission failed. Please try again.');
     } finally {
-      setLoading(false);
+      setIsSubmitting(false);
     }
   };
 
   return (
-<div className="mt-5 max-w-md mx-auto">
-  <h1 className='ml-8 text-4xl mb-4'>Add Alumni here</h1>
-  <form 
-    onSubmit={handleSubmit} 
-    className="space-y-6 p-6 bg-white dark:bg-gray-800 rounded-lg shadow-md transition-colors duration-300"
+   <div className="bg-white dark:bg-gray-900 min-h-screen py-8 px-4 sm:px-6 lg:px-8">
+  <form
+    onSubmit={handleSubmit}
+    className="space-y-6 max-w-xl mx-auto bg-white dark:bg-gray-800 p-6 rounded-lg shadow-md"
   >
-    <div className="space-y-2">
-      <label 
-        htmlFor="studentname" 
-        className="block text-sm font-medium text-gray-700 dark:text-gray-300"
-      >
-        Student Name
-      </label>
+    <div>
+      <label className="block mb-1 text-gray-800 dark:text-gray-100">Student Name *</label>
       <input
         type="text"
-        id="studentname"
-        placeholder="Enter student name"
-        value={form.studentname}
-        onChange={(e) => setForm({...form, studentname: e.target.value})}
-        className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100"
-        required
+        value={formData.studentname}
+        onChange={(e) =>
+          setFormData({ ...formData, studentname: e.target.value })
+        }
+        className={`w-full p-2 border rounded bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 ${
+          errors.studentname ? 'border-red-500' : 'border-gray-300 dark:border-gray-600'
+        }`}
       />
+      {errors.studentname && (
+        <p className="text-sm text-red-500">{errors.studentname}</p>
+      )}
     </div>
 
-    <div className="space-y-2">
-      <label 
-        htmlFor="position" 
-        className="block text-sm font-medium text-gray-700 dark:text-gray-300"
-      >
-        Post
-      </label>
+    <div>
+      <label className="block mb-1 text-gray-800 dark:text-gray-100">Post *</label>
       <input
         type="text"
-        id="position"
-        placeholder="Enter post"
-        value={form.post}
-        onChange={(e) => setForm({...form, post: e.target.value})}
-        className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100"
-        required
+        value={formData.post}
+        onChange={(e) =>
+          setFormData({ ...formData, post: e.target.value })
+        }
+        className={`w-full p-2 border rounded bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 ${
+          errors.post ? 'border-red-500' : 'border-gray-300 dark:border-gray-600'
+        }`}
       />
+      {errors.post && (
+        <p className="text-sm text-red-500">{errors.post}</p>
+      )}
     </div>
 
-    <div className="space-y-2">
-      <label 
-        htmlFor="description" 
-        className="block text-sm font-medium text-gray-700 dark:text-gray-300"
-      >
-        Description
-      </label>
+    <div>
+      <label className="block mb-1 text-gray-800 dark:text-gray-100">Description *</label>
       <textarea
-        id="description"
-        placeholder="Enter description"
-        value={form.description}
-        onChange={(e) => setForm({...form, description: e.target.value})}
+        value={formData.description}
+        onChange={(e) =>
+          setFormData({ ...formData, description: e.target.value })
+        }
+        className={`w-full p-2 border rounded bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 ${
+          errors.description ? 'border-red-500' : 'border-gray-300 dark:border-gray-600'
+        }`}
         rows={4}
-        className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100"
-        required
       />
+      {errors.description && (
+        <p className="text-sm text-red-500">{errors.description}</p>
+      )}
     </div>
 
-    <div className="space-y-2">
-      <label 
-        htmlFor="image" 
-        className="block text-sm font-medium text-gray-700 dark:text-gray-300"
-      >
-        Profile Image
-      </label>
-      <div className="flex items-center justify-center w-full">
-        <label className="flex flex-col items-center justify-center w-full h-32 border-2 border-gray-300 dark:border-gray-600 border-dashed rounded-lg cursor-pointer bg-gray-50 dark:bg-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 transition-colors duration-300">
-          <div className="flex flex-col items-center justify-center pt-5 pb-6">
-            <svg className="w-8 h-8 mb-4 text-gray-500 dark:text-gray-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 16">
-              <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M13 13h3a3 3 0 0 0 0-6h-.025A5.56 5.56 0 0 0 16 6.5 5.5 5.5 0 0 0 5.207 5.021C5.137 5.017 5.071 5 5 5a4 4 0 0 0 0 8h2.167M10 15V6m0 0L8 8m2-2 2 2"/>
-            </svg>
-            <p className="mb-2 text-sm text-gray-500 dark:text-gray-400">
-              <span className="font-semibold">Click to upload</span> or drag and drop
-            </p>
-            <p className="text-xs text-gray-500 dark:text-gray-400">
-              {file ? file.name : "PNG, JPG, JPEG (MAX. 5MB)"}
-            </p>
-          </div>
-          <input 
-            id="image" 
-            type="file" 
-            accept="image/*" 
-            onChange={(e) => setFile(e.target.files?.[0] || null)}
-            className="hidden" 
-            required
-          />
-        </label>
-      </div>
+    <div className='text-black'>
+      <label className="block mb-1 text-gray-800 dark:text-gray-100">Image *</label>
+      <ImageUpload
+        onUploadComplete={(publicId) => {
+          setFormData((prev) => ({ ...prev, publicId }));
+          setErrors((prev) => ({ ...prev, publicId: '' }));
+        }}
+        onUploadError={(error) => {
+          setErrors((prev) => ({ ...prev, publicId: error }));
+        }}
+        required
+        error={errors.publicId}
+      />
     </div>
 
     <button
       type="submit"
-      disabled={loading}
-      className={`w-full px-4 py-3 rounded-md font-medium transition-colors duration-300 ${
-        loading 
-          ? 'bg-gray-400 dark:bg-gray-600 cursor-not-allowed' 
-          : 'bg-blue-600 hover:bg-blue-700 dark:bg-blue-700 dark:hover:bg-blue-800 text-white'
-      }`}
+      disabled={isSubmitting}
+      className="w-full py-2 px-4 bg-blue-500 text-white rounded hover:bg-blue-600 disabled:bg-gray-400"
     >
-      {loading ? (
-        <span className="flex items-center justify-center">
-          <svg className="animate-spin -ml-1 mr-3 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-            <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
-            <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-          </svg>
-          Uploading...
-        </span>
-      ) : 'Upload'}
+      {isSubmitting ? 'Submitting...' : 'Submit'}
     </button>
   </form>
 </div>
-    
+
   );
 }

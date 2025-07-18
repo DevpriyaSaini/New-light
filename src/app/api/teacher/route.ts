@@ -2,67 +2,64 @@ import { NextResponse } from 'next/server';
 import { getServerSession } from 'next-auth';
 import { authOptions } from '../auth/[...nextauth]/options';
 import { Connectiondb } from '@/lib/dbconnect';
-import fs from 'fs/promises';
-import path from 'path';
 import teachermodel from '@/model/teacher';
+
+interface RequestBody {
+  teachername: string;
+  education: string;
+  experience: string;
+  description: string;
+  publicId: string;
+}
 
 export async function POST(request: Request) {
   try {
-    const session = await getServerSession(authOptions);
-    if (!session) {
-      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
-    }
-
     await Connectiondb();
 
-    const formData = await request.formData();
-    const teachername = formData.get('teachername') as string;
-    const education = formData.get('education') as string;
-    const experience = formData.get('experience') as string;
-    const description = formData.get('description') as string;
-    const imageFile = formData.get('image') as File;
+    const body = await request.json();
+    
+    // Validate required fields
+    const requiredFields = ['teachername', 'education', 'experience', 'description', 'publicId'];
+    const missingFields = requiredFields.filter(field => !body[field]);
 
-    if (!teachername || !education||!experience || !description || !imageFile) {
+    if (missingFields.length > 0) {
       return NextResponse.json(
-        { error: "All fields are required" },
+        {
+          error: "All fields are required",
+          missingFields,
+          received: {
+            teachername: body.teachername,
+            education: body.education,
+            experience: body.experience,
+            description: body.description,
+            publicId: body.publicId
+          }
+        },
         { status: 400 }
       );
     }
 
-    // Handle file upload
-    const bytes = await imageFile.arrayBuffer();
-    const buffer = Buffer.from(bytes);
-    const uniqueSuffix = `${Date.now()}-${Math.round(Math.random() * 1e9)}`;
-    const ext = path.extname(imageFile.name);
-    const filename = `${uniqueSuffix}${ext}`;
-    const uploadDir = path.join(process.cwd(), 'public', 'uploads');
-    
-    await fs.mkdir(uploadDir, { recursive: true });
-    await fs.writeFile(path.join(uploadDir, filename), buffer);
-
     const topper = await teachermodel.create({
-      teachername,
-      education,
-      experience,
-      description,
-      image: `/uploads/${filename}`
+      teachername: body.teachername,
+            education: body.education,
+            experience: body.experience,
+            description: body.description,
+            image: body.publicId
     });
 
     return NextResponse.json(topper, { status: 201 });
-
-  } catch (error: unknown) {
+  } catch (error: any) {
     console.error('Error:', error);
     return NextResponse.json(
-      { error: "Internal Server Error" },
+      { error: "Internal Server Error", message: error.message },
       { status: 500 }
     );
   }
 }
-
 export async function GET() {
   try {
     await Connectiondb();
-    const toppers = await teachermodel.find().sort({ createdAt: -1 });
+    const toppers = await teachermodel.find().sort({ createdAt: 1 });
     return NextResponse.json(toppers, { status: 200 });
   } catch (error: unknown) {
     return NextResponse.json(

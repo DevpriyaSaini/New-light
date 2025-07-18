@@ -1,5 +1,6 @@
 import { cn } from "@/lib/utils";
 import { AnimatePresence, motion } from "framer-motion"; // Changed from "motion/react"
+import { CldImage } from "next-cloudinary";
 import { useState } from "react";
 
 export const HoverEffect = ({
@@ -53,11 +54,13 @@ export const HoverEffect = ({
           </AnimatePresence>
           <Card>
             <div className="h-64 sm:h-72 md:h-80 w-full overflow-hidden rounded-t-xl"> {/* Added container for image */}
-              <img 
-                src={item.image} 
-                className="w-full h-full object-cover"
-                loading="lazy" // Added lazy loading
-              />
+              <CldImage
+      src={item.image}
+      width={350}
+      height={200}
+      alt="Alumni Image"
+      className="rounded-lg shadow"
+    />
             </div>
             <div className="p-4">
               <CardTitle>{item.teachername?
