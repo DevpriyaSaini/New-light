@@ -58,6 +58,18 @@ const Navbar = () => {
               Add Alumni
             </Link>
             <Link
+              href="/Admin/add-headline"
+              className="px-3 py-2 rounded-md text-sm font-medium hover:bg-gray-800 transition-colors"
+            >
+              Add Tags
+            </Link>
+            <Link
+              href="/Admin/add-events"
+              className="px-3 py-2 rounded-md text-sm font-medium hover:bg-gray-800 transition-colors"
+            >
+              Add Events
+            </Link>
+            <Link
               href="/Admin"
               className="px-3 py-2 rounded-md text-sm font-medium bg-white/80 hover:bg-white/80 transition-colors text-black"
             >
@@ -136,6 +148,21 @@ const Navbar = () => {
           >
             Add Alumni
           </Link>
+          <Link
+            href="/Admin/add-headline"
+            className="block px-3 py-2 rounded-md text-base font-medium hover:bg-gray-800"
+            onClick={() => setIsOpen(false)}
+          >
+            Add Tags
+          </Link>
+          <Link
+            href="/Admin/add-events"
+            className="block px-3 py-2 rounded-md text-base font-medium hover:bg-gray-800"
+            onClick={() => setIsOpen(false)}
+          >
+            Add events
+          </Link>
+          
           <Link
             href="/Admin"
             className="block px-3 py-2 rounded-md text-base font-medium bg-white/80 text-black"

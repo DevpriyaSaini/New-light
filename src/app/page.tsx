@@ -13,7 +13,7 @@ export default function Home() {
   <NavbarDemo />
 </div>
    < CarouselDemo/>
-   
+   <Toppercard/>
    <Alumnipage/>
    <DeveloperProfile/>
     <Footer/>
