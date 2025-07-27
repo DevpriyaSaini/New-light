@@ -165,12 +165,12 @@ const Navbar = () => {
           
           <Link
             href="/Admin"
-            className="block px-3 py-2 rounded-md text-base font-medium bg-white/80 text-black"
+            className="block w-full px-3 py-2 rounded-md text-base font-medium bg-white/80 text-black"
             onClick={() => setIsOpen(false)}
           >
             Admin
           </Link>
-           <Button className="w-full" onClick={handleLogout}>Signout</Button>
+           <button className=" w-full block px-3 py-2 rounded-md text-base font-medium bg-white/80 text-black" onClick={handleLogout}>Signout</button>
         </div>
       </div>
     </nav>

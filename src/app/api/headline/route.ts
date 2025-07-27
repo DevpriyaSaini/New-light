@@ -54,7 +54,7 @@ export async function GET() {
     return NextResponse.json(toppers, { status: 200 });
   } catch (error: unknown) {
     return NextResponse.json(
-      { error: "Failed to fetch toppers" },
+      { error: "Failed to fetch headline" },
       { status: 500 }
     );
   }
@@ -80,14 +80,14 @@ export async function DELETE(request: Request) {
     return NextResponse.json(
       { 
         success: true,
-        message: "Teacher deleted successfully",
+        message: "headline deleted successfully",
       },
       { status: 200 }
     );
    } catch (error: unknown) {
-    console.error("Error deleting teacher:", error);
+    console.error("Error deleting headline:", error);
     return NextResponse.json(
-      { error: "Failed to delete teacher" },
+      { error: "Failed to delete headliner" },
       { status: 500 }
     )
    }

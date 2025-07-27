@@ -59,11 +59,44 @@ export async function POST(request: Request) {
 export async function GET() {
   try {
     await Connectiondb();
-    const toppers = await festmodel.find().sort({ createdAt: 1 });
-    return NextResponse.json(toppers, { status: 200 });
+    
+    const result = await festmodel.aggregate([
+      {
+        $match: {
+          ftype: { $in: ["Cultural", "Academic"] } // Only fetch these two types
+        }
+      },
+      {
+        $group: {
+          _id: "$ftype", // Group by fest type
+          fests: {
+            $push: {
+              _id: "$_id",
+              title: "$title",
+              description: "$description",
+              image: "$image",
+              createdAt: "$createdAt"
+            }
+          },
+          count: { $sum: 1 } // Count of fests in each category
+        }
+      },
+      {
+        $sort: { "_id": 1 } // Sort the groups (1 for ascending, -1 for descending)
+      }
+    ]);
+
+    // Transform the result into a more usable format
+    const formattedResult = {
+      culturalFests: result.find(group => group._id === "Cultural")?.fests || [],
+      academicFests: result.find(group => group._id === "Academic")?.fests || [],
+    };
+
+    return NextResponse.json(formattedResult, { status: 200 });
   } catch (error: unknown) {
+    console.error("Error fetching fests:", error);
     return NextResponse.json(
-      { error: "Failed to fetch toppers" },
+      { error: "Failed to fetch fests" },
       { status: 500 }
     );
   }

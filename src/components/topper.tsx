@@ -43,16 +43,16 @@ function Toppercard() {
   }
 
   return (
-    <div  id="Toppers"className=" py-12 bg-gray-900 ">
+    <div  id="Toppers"className="bg-white/40 dark:bg-black  py-12 bg-gray-900 ">
       <div className="max-w-7xl mx-auto px-4 sm:px-6">
         <div className="text-center">
-           <p className=" text-3xl leading-8 font-extrabold tracking-tight text-white sm:text-4xl">
+           <p className=" text-3xl leading-8 font-extrabold tracking-tight dark:text-white sm:text-4xl">
             Meet to our toppers
           </p>
           <h1 className=" mt-2 text-base text-teal-600 font-semibold tracking-wide uppercase">
             Bright future
           </h1>
-          <hr/>
+          <hr className="mt-4 border-black dark:border-white mx-auto "/>
          
         </div>
 

@@ -17,10 +17,6 @@ const headlineSchema=new Schema<headline>({
         type:String,
         required:true
      },
-     button:{
-        type:String,
-        default:"Explore more"
-     }
     },{timestamps:true})
 
     const headlinemodel=models?.headline||mongoose.model("headline",headlineSchema);

@@ -9,7 +9,7 @@ export default function Home() {
   return (
    
    <>
-    <div className="fixed w-full top-0 z-50 dark">
+    <div className="fixed w-full top-0 z-50 ">
   <NavbarDemo />
 </div>
    < CarouselDemo/>

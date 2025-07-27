@@ -119,22 +119,35 @@ export default function AlumniForm() {
           )}
         </div>
 
-        <div>
-          <label className="block mb-1 text-gray-800 dark:text-gray-100">Fest Type *</label>
-          <input
-            type="select"
-            value={formData.ftype}
-            onChange={(e) =>
-              setFormData({ ...formData, ftype: e.target.value })
-            }
-            className={`w-full p-2 border rounded bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 ${
-              errors.ftype ? 'border-red-500' : 'border-gray-300 dark:border-gray-600'
-            }`}
-          />
-          {errors.ftype && (
-            <p className="text-sm text-red-500">{errors.ftype}</p>
-          )}
-        </div>
+   <div>
+  <label htmlFor="ftype" className="block mb-1 text-gray-800 dark:text-gray-100">
+    Fest Type *
+  </label>
+  <select
+    id="ftype"
+    value={formData.ftype}
+    onChange={(e) =>
+      setFormData({ ...formData, ftype: e.target.value })
+    }
+    className={`w-full p-2 border rounded bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100
+      appearance-none
+      transition-colors duration-150
+      ${
+        errors.ftype
+          ? 'border-red-500 focus:ring-red-300'
+          : 'border-gray-300 dark:border-gray-600 focus:ring-blue-300'
+      }`}
+  >
+    <option value="">Select fest type...</option>
+    <option value="Cultural">Cultural</option>
+    <option value="Acadmic">Academic</option>
+    {/* Add more options as needed */}
+  </select>
+  {errors.ftype && (
+    <p className="text-sm text-red-500">{errors.ftype}</p>
+  )}
+</div>
+
 
         <div>
           <label className="block mb-1 text-gray-800 dark:text-gray-100">Description *</label>

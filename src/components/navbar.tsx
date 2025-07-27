@@ -14,6 +14,7 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 
 import Link from 'next/link';
+import ThemeToggle from "@/app/components/ThemeToggle";
 
 export function NavbarDemo() {
   const Router=useRouter();
@@ -59,6 +60,7 @@ const router = useRouter();
           >
             Dashboard
           </NavbarButton>
+          <ThemeToggle/>
         </div>
       </NavBody>
 
@@ -66,10 +68,13 @@ const router = useRouter();
       <MobileNav>
         <MobileNavHeader>
           <NavbarLogo />
+          <div className="flex gap-5">
+            <ThemeToggle/>
           <MobileNavToggle
             isOpen={isMobileMenuOpen}
             onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
           />
+          </div>
         </MobileNavHeader>
 
         <MobileNavMenu
