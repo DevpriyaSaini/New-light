@@ -7,7 +7,7 @@ import festmodel from '@/model/fest';
 // app/api/submit/route.ts
 
 interface RequestBody {
-  fest: string;
+  title: string;
   description: string;
   ftype: string;
   publicId: string;
@@ -29,7 +29,7 @@ export async function POST(request: Request) {
           error: "All fields are required",
           missingFields,
           received: {
-            fest: body.fest,
+            title: body.fest,
             ftype: body.ftype,
             description: body.description,
             publicId: body.publicId
@@ -40,7 +40,7 @@ export async function POST(request: Request) {
     }
 
     const topper = await festmodel .create({
-      fest: body.fest,
+      title: body.fest,
       ftype: body.ftype,
       description: body.description,
       image: body.publicId

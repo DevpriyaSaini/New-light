@@ -14,6 +14,7 @@ import {
   AlertDialogTitle,
 } from "@/components/ui/alert-dialog";
 import { CldImage } from 'next-cloudinary';
+import Link from 'next/link';
 
 type Teacher = {
   _id: string;
@@ -35,18 +36,24 @@ type Alumni = {
 
 type Event = {
   _id: string;
-  fest: string;
+  title: string;
   description: string;
   image: string;
-  ftype: 'academic' | 'cultural';
+};
+
+type Headline = {
+  _id: string;
+  image: string;
+  description: string;
 };
 
 export default function AdminDashboard() {
-  const [activeTab, setActiveTab] = useState<'teacher' | 'toppers' | 'alumni' | 'academic' | 'cultural'>('teacher');
+  const [activeTab, setActiveTab] = useState<'teacher' | 'toppers' | 'alumni' | 'headline' | 'Academic' | 'Cultural'>('teacher');
   const [teachers, setTeachers] = useState<Teacher[]>([]);
   const [toppers, setToppers] = useState<Topper[]>([]);
   const [alumni, setAlumni] = useState<Alumni[]>([]);
   const [events, setEvents] = useState<Event[]>([]);
+  const [headlines, setHeadlines] = useState<Headline[]>([]);
   const [loading, setLoading] = useState(true);
   const [deleteId, setDeleteId] = useState<string | null>(null);
   const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
@@ -58,32 +65,31 @@ export default function AdminDashboard() {
   const fetchData = async () => {
     try {
       setLoading(true);
-      let endpoint = '';
-      let response;
       
-      if (activeTab === 'academic' || activeTab === 'cultural') {
-        endpoint = '/api/events';
-        response = await axios.get(endpoint);
-        setEvents(response.data.filter((event: Event) => event.ftype === activeTab));
+      if (activeTab === 'Academic' || activeTab === 'Cultural') {
+        const response = await axios.get('/api/events');
+        const eventsData = (activeTab === 'Academic' 
+          ? response.data?.academicFests 
+          : response.data?.culturalFests) || [];
+        setEvents(eventsData);
       } else {
-        endpoint = activeTab === 'toppers' ? '/api/toppers' : `/api/${activeTab}`;
-        response = await axios.get(endpoint);
+        const endpoint = activeTab === 'toppers' ? '/api/toppers' : 
+                        activeTab === 'headline' ? '/api/headline' : 
+                        `/api/${activeTab}`;
+        const response = await axios.get(endpoint);
+        
+        const data = Array.isArray(response.data) ? response.data : [];
         
         switch(activeTab) {
-          case 'teacher':
-            setTeachers(response.data);
-            break;
-          case 'toppers':
-            setToppers(response.data);
-            break;
-          case 'alumni':
-            setAlumni(response.data);
-            break;
+          case 'teacher': setTeachers(data); break;
+          case 'toppers': setToppers(data); break;
+          case 'alumni': setAlumni(data); break;
+          case 'headline': setHeadlines(data); break;
         }
       }
     } catch (error) {
-      toast.error(`Failed to fetch ${activeTab} data`);
-      console.error(error);
+      console.error(`Error fetching ${activeTab} data:`, error);
+      toast.error(`Failed to fetch ${activeTab} data. Please try again.`);
     } finally {
       setLoading(false);
     }
@@ -99,19 +105,31 @@ export default function AdminDashboard() {
     
     try {
       let endpoint = '';
+      let entityType = '';
       
-      if (activeTab === 'academic' || activeTab === 'cultural') {
+      if (activeTab === 'Academic' || activeTab === 'Cultural') {
         endpoint = '/api/events';
+        entityType = 'fest';
+        await axios.delete(endpoint, { 
+          data: { 
+            id: deleteId,
+            festType: activeTab.toLowerCase()
+          } 
+        });
       } else {
-        endpoint = activeTab === 'toppers' ? '/api/toppers' : `/api/${activeTab}`;
+        endpoint = activeTab === 'toppers' ? '/api/toppers' : 
+                  activeTab === 'headline' ? '/api/headline' : 
+                  `/api/${activeTab}`;
+        entityType = activeTab === 'headline' ? 'headline' : activeTab.slice(0, -1);
+        await axios.delete(endpoint, { data: { id: deleteId } });
       }
       
-      await axios.delete(endpoint, { data: { id: deleteId } });
-      toast.success(`Item deleted successfully`);
+      toast.success(`${entityType.charAt(0).toUpperCase() + entityType.slice(1)} deleted successfully`);
       fetchData();
     } catch (error) {
-      toast.error(`Failed to delete item`);
-      console.error(error);
+      console.error(`Error deleting ${activeTab} item:`, error);
+      toast.error(`Failed to delete ${activeTab === 'Academic' || activeTab === 'Cultural' ? 'fest' : 
+                 activeTab === 'headline' ? 'headline' : activeTab.slice(0, -1)}`);
     } finally {
       setIsDeleteDialogOpen(false);
       setDeleteId(null);
@@ -123,26 +141,45 @@ export default function AdminDashboard() {
       case 'teacher': return teachers;
       case 'toppers': return toppers;
       case 'alumni': return alumni;
-      case 'academic': 
-      case 'cultural': 
-        return events.filter(event => event.ftype === activeTab);
+      case 'headline': return headlines;
+      case 'Academic': 
+      case 'Cultural': 
+        return events;
+      default:
+        return [];
     }
   };
 
-  const getName = (item: Teacher | Topper | Alumni | Event) => {
+  const getName = (item: Teacher | Topper | Alumni | Event | Headline) => {
     if ('teachername' in item) return item.teachername;
     if ('studentname' in item) return item.studentname;
-    return item.fest;
+    if ('title' in item) return item.title;
+    return 'Headline'; // Default name for headlines
   };
 
   return (
     <div className="min-h-screen bg-gray-50 dark:bg-gray-900 p-4">
       <div className="max-w-7xl mx-auto">
-        <h1 className="text-3xl font-bold mb-8 text-gray-900 dark:text-white">Admin Dashboard</h1>
-        
+        <div className='flex justify-between'>
+          <h1 className="text-3xl font-bold mb-8 text-gray-900 dark:text-white">Admin Dashboard</h1>
+        <Link
+  href="/Admin/result"
+  className="
+    text-2xl flex items-center h-10 border-2 rounded-2xl
+    bg-gray-900 text-white
+    dark:bg-white/90 dark:text-gray-900
+    px-4 py-2 mb-8
+    hover:bg-black/80 dark:hover:bg-white/80
+    transition-colors duration-200 mr-5
+  "
+>
+  Result
+</Link>
+
+        </div>
         {/* Tabs */}
         <div className="flex border-b border-gray-300 dark:border-gray-700 mb-6 overflow-x-auto">
-          {['teacher', 'toppers', 'alumni', 'academic', 'cultural'].map((tab) => (
+          {['teacher', 'toppers', 'alumni', 'headline', 'Academic', 'Cultural'].map((tab) => (
             <button
               key={tab}
               className={`px-4 py-2 font-medium whitespace-nowrap ${
@@ -152,7 +189,9 @@ export default function AdminDashboard() {
               }`}
               onClick={() => setActiveTab(tab as any)}
             >
-              {tab.charAt(0).toUpperCase() + tab.slice(1)}
+              {tab === 'Academic' ? 'Academic Fests' : 
+               tab === 'Cultural' ? 'Cultural Fests' : 
+               tab.charAt(0).toUpperCase() + tab.slice(1)}
             </button>
           ))}
         </div>
@@ -165,22 +204,25 @@ export default function AdminDashboard() {
           </div>
         ) : currentData().length === 0 ? (
           <div className="p-8 text-center text-gray-500 dark:text-gray-400">
-            No data found
+            No {activeTab === 'Academic' ? 'Academic Fests' : 
+                activeTab === 'Cultural' ? 'Cultural Fests' : 
+                activeTab} found
           </div>
         ) : (
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
             {currentData().map((item) => (
               <div 
                 key={item._id} 
-                className="bg-white dark:bg-gray-800 rounded-lg shadow-lg overflow-hidden border border-gray-200 dark:border-gray-700"
+                className="bg-white dark:bg-gray-800 rounded-lg shadow-lg overflow-hidden border border-gray-200 dark:border-gray-700 transition-transform hover:scale-105"
               >
                 <div className="p-4 flex flex-col items-center">
-                   <div className="relative h-32 w-32 rounded-full overflow-hidden mb-4">
-                     <CldImage
+                  <div className="relative h-50 w-full rounded-lg overflow-hidden mb-4">
+                    <CldImage
                       src={item.image}
                       alt={getName(item)}
-                      fill
-                      className="object-cover"
+                      width={300}
+                      height={200}
+                      className="object-cover w-full h-full"
                       unoptimized
                     />
                   </div>
@@ -196,7 +238,7 @@ export default function AdminDashboard() {
                 <div className="bg-gray-100 dark:bg-gray-700 px-4 py-3 flex justify-center">
                   <button
                     onClick={() => handleDeleteClick(item._id)}
-                    className="text-red-600 dark:text-red-400 hover:text-red-800 dark:hover:text-red-300 font-medium px-4 py-1 rounded hover:bg-gray-200 dark:hover:bg-gray-600 transition"
+                    className="text-red-600 dark:text-red-400 hover:text-red-800 dark:hover:text-red-300 font-medium px-4 py-1 rounded hover:bg-gray-200 dark:hover:bg-gray-600 transition-colors"
                   >
                     Delete
                   </button>
@@ -214,7 +256,11 @@ export default function AdminDashboard() {
                 Are you absolutely sure?
               </AlertDialogTitle>
               <AlertDialogDescription className="text-gray-600 dark:text-gray-300">
-                This action cannot be undone. This will permanently delete the {activeTab.slice(0, -1)}'s data.
+                This action cannot be undone. This will permanently delete this{' '}
+                {activeTab === 'Academic' ? 'Academic Fest' : 
+                 activeTab === 'Cultural' ? 'Cultural Fest' : 
+                 activeTab === 'headline' ? 'headline' : 
+                 activeTab.slice(0, -1)}'s data.
               </AlertDialogDescription>
             </AlertDialogHeader>
             <AlertDialogFooter>

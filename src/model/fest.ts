@@ -1,14 +1,14 @@
 import mongoose,{models, Schema} from "mongoose";
 
 export interface Fest {
-    fest:string,
+    title:string,
     description:string;
     image:string
     ftype:string
 }
 
 const FestSchema=new Schema<Fest>({
-     fest:{
+     title:{
         type:String,
         required:true
      },

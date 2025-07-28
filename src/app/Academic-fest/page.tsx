@@ -28,7 +28,7 @@ function Events() {
       const data = await response.json();
       
       // Ensure each event has a unique id
-      const formattedEvents = (data.culturalFests || []).map((event: any, index: number) => ({
+      const formattedEvents = (data.academicFests || []).map((event: any, index: number) => ({
         ...event,
         id: event.id || `event-${index}-${Date.now()}` // Fallback unique ID
       }));
@@ -49,8 +49,8 @@ function Events() {
 
   if (loading) {
     return (
-      <div className="flex justify-center items-center h-64">
-        <p className="text-white">Loading events...</p>
+      <div className=" dark:bg-gray-800 flex justify-center items-center h-64">
+        <p className="text-black dark:text-white">Loading events...</p>
       </div>
     );
   }
@@ -64,21 +64,21 @@ function Events() {
   }
 
   return (
-    <div className="container mx-auto px-4 py-8">
+    <div className=" dark:bg-gray-800 container mx-auto px-4 py-8">
       <div className="fixed w-full top-0 z-50 -left-2">
         <NavbarDemo />
       </div>
 
       <h1 className="mt-10 text-3xl font-bold mb-8 text-center text-gray-900 dark:text-white">
-        Cultural Events
+        Academic Events
       </h1>
 
       <hr />
 
-      <div className="mt-8 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+      <div className=" mt-8 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
         {events.map((event) => (
           <div
-            key={event.id} // Ensure this is truly unique
+            key={event.id} 
             className="rounded-xl overflow-hidden shadow-lg bg-white dark:bg-gray-800 transform transition-all hover:shadow-xl hover:-translate-y-1"
           >
             <div className="relative aspect-square">
