@@ -165,12 +165,12 @@ export default function AdminDashboard() {
         <Link
   href="/Admin/result"
   className="
-    text-2xl flex items-center h-10 border-2 rounded-2xl
+     flex items-center h-10 border-2 rounded-2xl
     bg-gray-900 text-white
     dark:bg-white/90 dark:text-gray-900
     px-4 py-2 mb-8
     hover:bg-black/80 dark:hover:bg-white/80
-    transition-colors duration-200 mr-5
+    transition-colors duration-200 mr-10
   "
 >
   Result

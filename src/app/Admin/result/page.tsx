@@ -12,6 +12,7 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
 } from "@/components/ui/alert-dialog"
+import axios from 'axios'
 
 const classOrder = ['Nursery', 'LKG', 'UKG', '1', '2', '3', '4', '5', '6', '7', '8', '9', '10']
 
@@ -32,6 +33,7 @@ export default function ResultsDashboard() {
   const [error, setError] = useState<string | null>(null)
   const [deleteId, setDeleteId] = useState<string | null>(null)
   const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false)
+  const [isDeleteDialogOpenall, setIsDeleteDialogOpenall] = useState(false)
 
   // Fetch all results on initial load
   useEffect(() => {
@@ -87,13 +89,29 @@ export default function ResultsDashboard() {
       setDeleteId(null)
     }
   }
+  async function delall() {
+   try {
+     const res=await axios.delete("/api/result/delete-all")
+     toast("all reportcards successfully");
+   } catch (error) {
+    toast.error("Error to delete all reportcards")
+   }
+  }
 
   return (
-    <div className="min-h-screen bg-gray-50 dark:bg-gray-900 p-4">
+    <div className=" mt-2 min-h-screen bg-gray-50 dark:bg-gray-900 p-4">
       <div className="max-w-7xl mx-auto">
-        <h1 className="text-3xl font-bold mb-8 text-center text-gray-900 dark:text-white">
+        <div className='flex justify-between items-center'>
+          <h1 className="text-3xl font-bold mb-8 text-center text-gray-900 dark:text-white ">
           School Results Dashboard
         </h1>
+        <button  onClick={() => {
+                    setIsDeleteDialogOpenall(true)
+                      
+                      
+                    }} className='bg-gray-700 dark:bg-gray-50 text-white dark:text-black rounded-2xl h-15 w-45 '>Delete All Reportcard</button>
+        
+        </div>
 
         {/* Class Tabs */}
         <div className="flex border-b border-gray-300 dark:border-gray-700 mb-6 overflow-x-auto">
@@ -189,6 +207,33 @@ export default function ResultsDashboard() {
               </AlertDialogCancel>
               <AlertDialogAction 
                 onClick={handleDelete}
+                className="bg-red-600 hover:bg-red-700 text-white"
+              >
+                Delete
+              </AlertDialogAction>
+            </AlertDialogFooter>
+          </AlertDialogContent>
+        </AlertDialog>
+
+
+
+        {/* for delete all */}
+        <AlertDialog open={isDeleteDialogOpenall} onOpenChange={setIsDeleteDialogOpenall}>
+          <AlertDialogContent className="bg-white dark:bg-gray-800 border-gray-300 dark:border-gray-700">
+            <AlertDialogHeader>
+              <AlertDialogTitle className="text-gray-900 dark:text-white">
+                Confirm Deletion
+              </AlertDialogTitle>
+              <AlertDialogDescription className="text-gray-600 dark:text-gray-300">
+                Are you sure you want to delete all results? This action cannot be undone.
+              </AlertDialogDescription>
+            </AlertDialogHeader>
+            <AlertDialogFooter>
+              <AlertDialogCancel className="bg-gray-100 dark:bg-gray-700 border-gray-300 dark:border-gray-600 hover:bg-gray-200 dark:hover:bg-gray-600 text-gray-900 dark:text-white">
+                Cancel
+              </AlertDialogCancel>
+              <AlertDialogAction 
+                onClick={delall}
                 className="bg-red-600 hover:bg-red-700 text-white"
               >
                 Delete

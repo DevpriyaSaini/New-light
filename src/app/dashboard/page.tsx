@@ -6,10 +6,10 @@ import React from 'react'
 function Page() {
   return (
     <>
-    <div className="fixed w-full top-0 z-50 dark">
+    <div className="fixed  w-full top-0 z-50 dark">
       <NavbarDemo />
       </div>
-      <div className='mt-5 '>
+      <div className=' '>
 
      <TimelineDemo/>
    </div>

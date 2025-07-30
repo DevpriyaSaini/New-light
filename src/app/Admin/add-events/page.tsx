@@ -98,6 +98,7 @@ export default function AlumniForm() {
 
   return (
     <div className="bg-white dark:bg-gray-900 min-h-screen py-8 px-4 sm:px-6 lg:px-8">
+      <h1 className='dark:text-white text-3xl flex justify-center ml-auto'>Add Events</h1>
       <form
         onSubmit={handleSubmit}
         className="space-y-6 max-w-xl mx-auto bg-white dark:bg-gray-800 p-6 rounded-lg shadow-md"

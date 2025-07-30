@@ -32,16 +32,16 @@ const NoticePage = () => {
     position: 'Manager',
     email: 'principal@schoolexample.edu',
     phone: '+1 (555) 123-4567',
-    photo: '/principal.jpg',
-    about: 'Mr Lalit has over 15 years of experience in education leadership. She holds a PhD in Educational Administration and is committed to creating an inclusive learning environment for all students.'
+    photo: '/Devpic.jpg',
+    about: 'Mr Lalit has over 15 years of experience in education leadership. '
   });
   const [principal] = useState<ManagerInfo>({
     name: 'Mr. Mukesh Saharma ',
     position: 'Principal',
     email: 'principal@schoolexample.edu',
     phone: '+1 (555) 123-4567',
-    photo: '/principal.jpg',
-    about: 'Mr Mukesh has over 15 years of experience in education leadership. She holds a PhD in Educational Administration and is committed to creating an inclusive learning environment for all students.'
+    photo: '/Devpic.jpg',
+    about: 'Mr Mukesh has over 15 years of experience in education leadership. '
   });
 
   async function fetchNotices() {
@@ -63,10 +63,7 @@ const NoticePage = () => {
   }, []);
 
   const handleDeleteNotice = async (id: string) => {
-    if (!isAdmin) {
-      toast.error('Only admin can delete notices');
-      return;
-    }
+  
     
     try {
       const response = await axios.delete(`/api/notice?id=${id}`);
@@ -100,7 +97,7 @@ const NoticePage = () => {
   
 
   {/* Manager/Principal Info Section */}
-  <div className="bg-white dark:bg-gray-800 rounded-lg shadow-md p-6 mb-8 transition-colors duration-300">
+  <div id="Contact"className="bg-white dark:bg-gray-800 rounded-lg shadow-md p-6 mb-8 transition-colors duration-300">
     <div className="flex flex-col md:flex-row gap-6">
       <div className="w-full md:w-1/4 flex justify-center">
         <div className="relative w-48 h-48 rounded-full overflow-hidden border-4 border-blue-100 dark:border-blue-900">

@@ -24,8 +24,8 @@ function Footer() {
         <div className="space-y-4">
           <h3 className="text-white text-lg font-semibold border-b border-purple-500 pb-2 inline-block">Quick Links</h3>
           <ul className="space-y-3">
-            {['Home', 'About Us', 'Academics', , 'Achievements'].map((item) => (
-              <li key={item}>
+           
+              <li >
                 <a
                   href="#"
                   className="text-sm hover:text-purple-400 transition-colors duration-200 flex items-center"
@@ -33,10 +33,54 @@ function Footer() {
                   <svg className="w-3 h-3 mr-2 text-purple-400" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
                     <path fillRule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clipRule="evenodd" />
                   </svg>
-                  {item}
+                  Home
                 </a>
               </li>
-            ))}
+              <li >
+                <a
+                  href="Teacher"
+                  className="text-sm hover:text-purple-400 transition-colors duration-200 flex items-center"
+                >
+                  <svg className="w-3 h-3 mr-2 text-purple-400" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                    <path fillRule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clipRule="evenodd" />
+                  </svg>
+                  Teacher
+                </a>
+              </li>
+              <li >
+                <a
+                  href="/#Contact"
+                  className="text-sm hover:text-purple-400 transition-colors duration-200 flex items-center"
+                >
+                  <svg className="w-3 h-3 mr-2 text-purple-400" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                    <path fillRule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clipRule="evenodd" />
+                  </svg>
+                  Contact-Us
+                </a>
+              </li>
+              <li >
+                <a
+                  href="/#Toppers"
+                  className="text-sm hover:text-purple-400 transition-colors duration-200 flex items-center"
+                >
+                  <svg className="w-3 h-3 mr-2 text-purple-400" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                    <path fillRule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clipRule="evenodd" />
+                  </svg>
+                  Toppers
+                </a>
+              </li>
+              <li >
+                <a
+                  href="/#Alumni"
+                  className="text-sm hover:text-purple-400 transition-colors duration-200 flex items-center"
+                >
+                  <svg className="w-3 h-3 mr-2 text-purple-400" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                    <path fillRule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clipRule="evenodd" />
+                  </svg>
+                  Alumni
+                </a>
+              </li>
+           
           </ul>
         </div>
 
@@ -75,29 +119,40 @@ function Footer() {
           </address>
         </div>
 
-        {/* Social Media */}
-        <div className="space-y-4">
-          <h3 className="text-white text-lg font-semibold border-b border-purple-500 pb-2 inline-block">Connect With Us</h3>
-          <div className="grid grid-cols-2 gap-3">
-            {[
-              { name: 'Facebook', icon: 'M18 2h-3a5 5 0 00-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 011-1h3z' },
-              { name: 'Twitter', icon: 'M6 2a4 4 0 100 8 4 4 0 000-8zM4 6a2 2 0 114 0 2 2 0 01-4 0zm16 8a4 4 0 01-2.03.715 5.977 5.977 0 000-11.43A4 4 0 0120 6v12zm-2 0h2a6 6 0 00-6-6v2a4 4 0 014 4z' },
-              { name: 'Instagram', icon: 'M8 2a6 6 0 016 6v8a6 6 0 01-6 6H2a6 6 0 01-6-6V8a6 6 0 016-6h6zm0 2H2a4 4 0 00-4 4v8a4 4 0 004 4h6a4 4 0 004-4V8a4 4 0 00-4-4zm6 4a2 2 0 110-4 2 2 0 010 4zm-6 2a4 4 0 110-8 4 4 0 010 8zm0-2a2 2 0 100-4 2 2 0 000 4z' },
-              { name: 'YouTube', icon: 'M10 18a8 8 0 100-16 8 8 0 000 16zM9.555 7.168A1 1 0 008 8v4a1 1 0 001.555.832l3-2a1 1 0 000-1.664l-3-2z' }
-            ].map((social) => (
-              <a
-                key={social.name}
-                href="#"
-                className="flex items-center space-x-2 text-sm p-2 bg-gray-800 hover:bg-purple-600 rounded transition-all duration-200"
-              >
-                <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-                  <path fillRule="evenodd" d={social.icon} clipRule="evenodd" />
-                </svg>
-                <span>{social.name}</span>
-              </a>
-            ))}
-          </div>
-        </div>
+       {/* Social Media Icons */}
+<div className="space-y-4">
+  <h3 className="text-white text-lg font-semibold border-b border-purple-500 pb-2 inline-block">
+    Connect With Us
+  </h3>
+  <div className="flex gap-4">
+    {[
+      { name: 'Facebook', href: 'https://facebook.com', svgPath: 'M18 2h-3a5 5 0 00-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 011-1h3z' },
+      { name: 'Twitter', href: 'https://twitter.com', svgPath: 'M5 3a7 7 0 0010.29 6.13A5.07 5.07 0 0016 7v.35A7.72 7.72 0 0111 14a7.71 7.71 0 01-4.18-1.23A5.08 5.08 0 006 12a7.18 7.18 0 001 0z' },
+      { name: 'Instagram', href: 'https://instagram.com', svgPath: 'M7 2C4.8 2 3 3.8 3 6v8c0 2.2 1.8 4 4 4h8c2.2 0 4-1.8 4-4V6c0-2.2-1.8-4-4-4H7zm8 2a2 2 0 110 4 2 2 0 010-4zM10 7a3 3 0 110 6 3 3 0 010-6z' },
+      { name: 'YouTube', href: 'https://youtube.com', svgPath: 'M10 3C5.6 3 2 6.6 2 11s3.6 8 8 8 8-3.6 8-8-3.6-8-8-8zm-1 10V9l4 2-4 2z' },
+    ].map((social) => (
+      <a
+        key={social.name}
+        href={social.href}
+        target="_blank"
+        rel="noopener noreferrer"
+        className="group p-2 rounded-full bg-gray-800 hover:bg-purple-600 transition duration-300"
+        aria-label={social.name}
+        title={social.name}
+      >
+        <svg
+          className="w-5 h-5 text-white group-hover:scale-110 transition-transform duration-300"
+          fill="currentColor"
+          viewBox="0 0 20 20"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path d={social.svgPath} />
+        </svg>
+      </a>
+    ))}
+  </div>
+</div>
+
       </div>
 
       {/* Copyright Section */}

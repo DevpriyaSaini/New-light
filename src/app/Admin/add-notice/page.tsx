@@ -90,6 +90,7 @@ export default function AlumniForm() {
 
     <div>
       <label className="block mb-1 text-gray-800 dark:text-gray-100">Notice *</label>
+      <h1 className='dark:text-white text-3xl flex justify-center ml-auto'>Add Notice</h1>
       <textarea
         value={formData.notice}
         onChange={(e) =>
