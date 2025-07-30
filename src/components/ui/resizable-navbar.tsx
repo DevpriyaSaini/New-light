@@ -103,7 +103,7 @@ export const NavBody = ({ children, className, visible }: NavBodyProps) => {
         minWidth: "800px",
       }}
       className={cn(
-        "relative z-[60] mx-auto hidden w-full max-w-7xl flex-row items-center justify-between self-start rounded-full bg-transparent px-4 py-2 lg:flex dark:bg-transparent",
+        "relative z-[60] mx-auto hidden w-full max-w-7xl flex-row items-center justify-between self-start rounded-full bg-transparent px-2 py-2 lg:flex dark:bg-transparent",
         visible && "bg-white/80 dark:bg-neutral-950/80",
         className,
       )}
@@ -120,7 +120,7 @@ export const NavItems = ({ items, className, onItemClick }: NavItemsProps) => {
     <motion.div
       onMouseLeave={() => setHovered(null)}
       className={cn(
-        "absolute inset-0 hidden flex-1 flex-row items-center justify-center space-x-2 text-sm font-medium text-zinc-600 transition duration-200 hover:text-zinc-800 lg:flex lg:space-x-2",
+        "absolute inset-0 hidden flex-1 flex-row items-center justify-center space-x-2 text-sm font-medium text-zinc-600 transition duration-200 hover:text-zinc-800 lg:flex lg:space-x-1",
         className,
       )}
     >
@@ -128,7 +128,7 @@ export const NavItems = ({ items, className, onItemClick }: NavItemsProps) => {
         <a
           onMouseEnter={() => setHovered(idx)}
           onClick={onItemClick}
-          className="relative px-4 py-2 text-neutral-600 dark:text-neutral-300"
+          className="relative px-3 py-2 text-neutral-600 dark:text-neutral-300"
           key={`link-${idx}`}
           href={item.link}
         >
@@ -237,9 +237,9 @@ export const NavbarLogo = () => {
       className="relative z-20 mr-4 flex items-center space-x-2 px-2 py-1 text-sm font-normal text-black"
     >
       <img
-        src="https://imgs.search.brave.com/c4IqdrpaShMEQu3VST-IkRdosTuqdf_6zob5CLO7BXY/rs:fit:500:0:1:0/g:ce/aHR0cHM6Ly9pLnBp/bmltZy5jb20vb3Jp/Z2luYWxzLzg0L2Nj/LzZkLzg0Y2M2ZDU4/OTgxMDkxMzAyZTg4/ODA1MDU0YmY2ODRh/LmpwZw"
+        src="/DALL·E 2024-12-04 15.58.24 - A modern and professional logo design for 'New Light Public School'. The logo features a glowing sun rising over an open book, symbolizing knowledge a.webp"
         alt="logo"
-        width={50}
+        width={60}
         height={70}
         className="rounded-full object-cover object-center"
       />

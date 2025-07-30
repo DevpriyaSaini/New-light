@@ -24,16 +24,16 @@ export function NavbarDemo() {
       link: "/Teachers",
     },
     {
-      name: "Toppers",
-      link: "#Toppers",
+      name: "Cultural-fest",
+      link: "/Cultural-fest",
     },
     {
-      name: "Alumni",
-      link: "#Alumni",
+      name: "Academic-fest",
+      link: "/Academic-fest",
     },
     {
-      name: "Devloper",
-      link: "#devloper",
+      name: "Result",
+      link: "/Reportcard",
     },
     
   ];

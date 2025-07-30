@@ -134,7 +134,7 @@ export default function ResultsDashboard() {
               >
                 {/* ... (rest of your card content remains the same) ... */}
                 <div className="p-4 flex flex-col items-center">
-                  <div className="relative h-50 w-60 rounded-2xl overflow-hidden mb-4 border-2 border-purple-300 dark:border-purple-800">
+                  <div className="relative h-60 w-50 rounded-2xl overflow-hidden mb-4 border-2 border-purple-300 dark:border-purple-800">
                     <CldImage
                       src={student.image}
                       alt={student.studentname}

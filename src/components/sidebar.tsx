@@ -32,8 +32,8 @@ const Navbar = () => {
       <div className="flex-shrink-0 flex items-center">
         <Link href="/" className="flex items-center">
           <img 
-            src="https://imgs.search.brave.com/lkIuRGzrNmt9JVgk4KscDk0Yt62nUkoSOOziXEO9fVs/rs:fit:500:0:1:0/g:ce/aHR0cHM6Ly9pbWcu/ZnJlZXBpay5jb20v/cHJlbWl1bS12ZWN0/b3Ivc2Nob29sLWxv/Z28tZGVzaWduLXRl/bXBsYXRlLWN1c3Rv/bWl6YWJsZS1lZHVj/YXRpb24tbG9nby1p/ZGVhc183MzExMzYt/MTUwLmpwZz9zZW10/PWFpc19oeWJyaWQm/dz03NDA" 
-            className="w-10 h-10 rounded-full object-cover border-2 border-gray-300 dark:border-gray-600"
+            src="/DALL·E 2024-12-04 15.58.24 - A modern and professional logo design for 'New Light Public School'. The logo features a glowing sun rising over an open book, symbolizing knowledge a.webp" 
+            className="w-15 h-15 rounded-full object-cover border-2 border-gray-300 dark:border-gray-600"
             alt="School Logo"
           />
           <p className="ml-3 text-gray-800 dark:text-gray-200 font-medium">New Light</p>
@@ -77,6 +77,12 @@ const Navbar = () => {
           className="px-3 py-2 rounded-md text-sm font-medium text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors"
         >
           Add Result
+        </Link>
+        <Link
+          href="/Admin/add-notice"
+          className="px-3 py-2 rounded-md text-sm font-medium text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors"
+        >
+          Add Notice
         </Link>
         <Link
           href="/Admin"
@@ -184,6 +190,13 @@ const Navbar = () => {
         onClick={() => setIsOpen(false)}
       >
         Add Result
+      </Link>
+      <Link
+        href="/Admin/add-notice"
+        className="block px-3 py-2 rounded-md text-base font-medium text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors"
+        onClick={() => setIsOpen(false)}
+      >
+        Add Notice
       </Link>
       <Link
         href="/Admin"

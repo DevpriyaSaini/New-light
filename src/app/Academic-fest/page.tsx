@@ -64,7 +64,7 @@ function Events() {
   }
 
   return (
-    <div className=" dark:bg-gray-800 container mx-auto px-4 py-8">
+    <div className=" dark:bg-gray-800  mx-auto px-4 py-8">
       <div className="fixed w-full top-0 z-50 -left-2">
         <NavbarDemo />
       </div>

@@ -2,6 +2,7 @@ import Alumnipage from "@/components/alumni";
 import DeveloperProfile from "@/components/devloper";
 import Footer from "@/components/footer";
 import { NavbarDemo } from "@/components/navbar";
+import NoticePage from "@/components/notice";
 import { CarouselDemo } from "@/components/slider";
 import Toppercard from "@/components/topper";
 
@@ -13,6 +14,7 @@ export default function Home() {
   <NavbarDemo />
 </div>
    < CarouselDemo/>
+   <NoticePage/>
    <Toppercard/>
    <Alumnipage/>
    <DeveloperProfile/>

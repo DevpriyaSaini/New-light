@@ -24,7 +24,7 @@ function Footer() {
         <div className="space-y-4">
           <h3 className="text-white text-lg font-semibold border-b border-purple-500 pb-2 inline-block">Quick Links</h3>
           <ul className="space-y-3">
-            {['Home', 'About Us', 'Academics', 'Admissions', 'Gallery', 'Achievements'].map((item) => (
+            {['Home', 'About Us', 'Academics', , 'Achievements'].map((item) => (
               <li key={item}>
                 <a
                   href="#"
