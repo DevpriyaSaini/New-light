@@ -57,84 +57,85 @@ function Reportcardpage() {
     }
 
     return (
-        <div className="min-h-screen bg-gray-50 dark:bg-gray-900 p-6">
-            <div className="fixed w-full top-0 z-50 dark -ml-5">
-              <NavbarDemo />
+       <div className="min-h-screen bg-gray-50 dark:bg-gray-900 p-6 flex flex-col items-center">
+  <div className="fixed w-full top-0 z-50">
+    <NavbarDemo />
+  </div>
+  
+  <div className="max-w-4xl w-full mt-16 flex flex-col items-center">
+    <h1 className="text-3xl font-bold text-center mb-8 text-gray-900 dark:text-white">
+      Student Report Card
+    </h1>
+
+    <form onSubmit={handleSubmit} className="w-full max-w-lg mb-8">
+      <div className="flex gap-2 w-full">
+        <input
+          type="text"
+          value={studentId}
+          onChange={(e) => setStudentId(e.target.value)}
+          placeholder="Enter Student ID"
+          className="flex-1 px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none bg-white dark:bg-gray-800 text-gray-900 dark:text-white"
+          disabled={loading}
+        />
+        <button
+          type="submit"
+          disabled={loading}
+          className="px-4 py-2 bg-blue-600 hover:bg-blue-700 dark:bg-purple-600 dark:hover:bg-purple-700 text-white rounded-lg transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+        >
+          {loading ? 'Searching...' : 'Search'}
+        </button>
+      </div>
+      {error && <p className="mt-2 text-red-500 dark:text-red-400 text-center">{error}</p>}
+    </form>
+
+    {loading && (
+      <div className="flex justify-center items-center h-64 w-full">
+        <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-blue-500 dark:border-purple-500"></div>
+      </div>
+    )}
+
+    {reportcard && (
+      <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-xl overflow-hidden border border-gray-200 dark:border-gray-700 w-full max-w-3xl">
+        <div className="p-4 md:p-6">
+          <div className="flex flex-col items-center gap-6">
+            {/* Report Card Image */}
+            <div className="w-full">
+              <div className="relative aspect-[4/3] w-full rounded-xl overflow-hidden border-4 border-blue-100 dark:border-purple-900 shadow-lg bg-gray-50 dark:bg-gray-900">
+                <CldImage
+                  src={reportcard.image}
+                  alt={`${reportcard.studentname}'s Report Card`}
+                  fill
+                  className="object-contain"
+                  sizes="100vw"
+                  priority
+                  quality={100}
+                />
+              </div>
             </div>
-            <div className="max-w-4xl  mt-15">
-                <h1 className="text-3xl font-bold text-center mb-8 text-gray-900 dark:text-white">
-                    Student Report Card
-                </h1>
 
-                <form onSubmit={handleSubmit} className=" -ml-5 mb-8">
-                    <div className="flex gap-4">
-                        <input
-                            type="text"
-                            value={studentId}
-                            onChange={(e) => setStudentId(e.target.value)}
-                            placeholder="Enter Student ID"
-                            className="flex-1 px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none bg-white dark:bg-gray-800 text-gray-900 dark:text-white"
-                            disabled={loading}
-                        />
-                        <button
-                            type="submit"
-                            disabled={loading}
-                            className="px-4 py-2 bg-blue-600 hover:bg-blue-700 dark:bg-purple-600 dark:hover:bg-purple-700 text-white rounded-lg transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
-                        >
-                            {loading ? 'Searching...' : 'Search'}
-                        </button>
-                    </div>
-                    {error && <p className="mt-2 text-red-500 dark:text-red-400">{error}</p>}
-                </form>
-
-                {loading && (
-                    <div className="flex justify-center items-center h-64">
-                        <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-blue-500 dark:border-purple-500"></div>
-                    </div>
-                )}
-
-{reportcard && (
-  <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-xl overflow-hidden border border-gray-200 dark:border-gray-700 ml-auto">
-    <div className="p-4 md:p-6">
-      <div className="flex flex-col items-center gap-6">
-        {/* Report Card Image - Optimized for Mobile */}
-        <div className="w-full">
-          <div className="relative aspect-[4/3] w-full rounded-xl overflow-hidden border-4 border-blue-100 dark:border-purple-900 shadow-lg bg-gray-50 dark:bg-gray-900">
-            <CldImage
-              src={reportcard.image}
-              alt={`${reportcard.studentname}'s Report Card`}
-              fill
-              className="object-contain"
-              sizes="100vw"
-              priority
-              quality={100}
-            />
-          </div>
-        </div>
-
-        {/* Student Info - Below image on mobile */}
-        <div className="w-full text-center space-y-3">
-          <h2 className="text-2xl md:text-3xl font-bold text-gray-900 dark:text-white">
-            {reportcard.studentname}
-          </h2>
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 mt-3">
-            <p className="text-base md:text-lg text-gray-700 dark:text-gray-300 bg-gray-100 dark:bg-gray-700 px-3 py-2 rounded-lg">
-              <span className="font-semibold">ID:</span> {reportcard.studentId}
-            </p>
-            <p className="text-base md:text-lg text-gray-700 dark:text-gray-300 bg-gray-100 dark:bg-gray-700 px-3 py-2 rounded-lg">
-              <span className="font-semibold">Class:</span> {reportcard.class}
-            </p>
-            <p className="text-base md:text-lg text-gray-700 dark:text-gray-300 bg-gray-100 dark:bg-gray-700 px-3 py-2 rounded-lg">
-              <span className="font-semibold">Position:</span> {reportcard.position}
-            </p>
+            {/* Student Info */}
+            <div className="w-full text-center space-y-3">
+              <h2 className="text-2xl md:text-3xl font-bold text-gray-900 dark:text-white">
+                {reportcard.studentname}
+              </h2>
+              <div className="grid grid-cols-1 sm:grid-cols-3 gap-2 mt-3">
+                <p className="text-base md:text-lg text-gray-700 dark:text-gray-300 bg-gray-100 dark:bg-gray-700 px-3 py-2 rounded-lg">
+                  <span className="font-semibold">ID:</span> {reportcard.studentId}
+                </p>
+                <p className="text-base md:text-lg text-gray-700 dark:text-gray-300 bg-gray-100 dark:bg-gray-700 px-3 py-2 rounded-lg">
+                  <span className="font-semibold">Class:</span> {reportcard.class}
+                </p>
+                <p className="text-base md:text-lg text-gray-700 dark:text-gray-300 bg-gray-100 dark:bg-gray-700 px-3 py-2 rounded-lg">
+                  <span className="font-semibold">Position:</span> {reportcard.position}
+                </p>
+              </div>
+            </div>
           </div>
         </div>
       </div>
-    </div>
+    )}
   </div>
-)}
-            </div>
-        </div>
+</div>
     )
 }
 
