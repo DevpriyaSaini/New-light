@@ -67,7 +67,7 @@ function Reportcardpage() {
       Student Report Card
     </h1>
 
-    <form onSubmit={handleSubmit} className="w-full max-w-lg mb-8">
+    <form onSubmit={handleSubmit} className="w-full mr-4 max-w-lg mb-8">
       <div className="flex gap-2 w-full">
         <input
           type="text"
