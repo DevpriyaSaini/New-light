@@ -6,6 +6,4 @@ declare global{
         promise:promise<Connection>|null
     }
 }
-
-
 export {}
